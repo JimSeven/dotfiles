@@ -6,7 +6,7 @@ So you got a new :computer: or you just want to do a clean install of the latest
 
 **.files** is a collection of configuration files (dotfiles _duh!_) plus an automated setup to install all the apps and tools to get running in no time.
 
-![](https://raw.githubusercontent.com/robocopklaus/dotfiles/main/screenshot.png)
+![](https://raw.githubusercontent.com/jimseven/dotfiles/main/screenshot.png)
 
 ## :robot: Automated installation
 
