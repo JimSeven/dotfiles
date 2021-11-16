@@ -1,4 +1,4 @@
-# .files ![CI](https://github.com/robocopklaus/dotfiles/workflows/CI/badge.svg)
+# .files ![CI](https://github.com/jimseven/dotfiles/workflows/CI/badge.svg)
 
 ## :rocket: A development setup in just a few minutes without the hassle
 
@@ -15,7 +15,7 @@ So you got a new :computer: or you just want to do a clean install of the latest
 After you've successfully installed macOS you can just copy & paste this line into the terminal:
 
 ```
-curl -fsSL https://raw.githubusercontent.com/robocopklaus/dotfiles/main/scripts/remote-install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/jimseven/dotfiles/main/scripts/remote-install.sh | bash
 ```
 
 ## :turtle: Manual installation
@@ -31,7 +31,7 @@ xcode-select --install
 1. Clone this repo
 
    ```
-   git clone git@github.com:robocopklaus/dotfiles.git
+   git clone git@github.com:jimseven/dotfiles.git
    ```
 
 2. Install
