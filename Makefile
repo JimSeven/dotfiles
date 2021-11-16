@@ -111,6 +111,8 @@ ifndef GITHUB_ACTION
 	@$(call install_mas_app,824183456)
 # Spark
 	@$(call install_mas_app,1176895641)
+# ForkLift
+	@$(call install_mas_app,412448059)
 
 endif
 
