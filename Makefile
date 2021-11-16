@@ -11,11 +11,13 @@ DOTFILES := $(addprefix $(HOME)/,$(HOMEFILES))
 DOCKUTIL_PATH = /usr/local/bin/dockutil
 # Path to macOS user fonts
 FONTS_DIR := $(HOME)/Library/Fonts
+# Path to website project
+SITES_DIR := $(HOME)/Sites
 
 # Helper functions
 install_vscode_extension = code --install-extension $(1)
 install_brew_package = brew list --versions $(1) > /dev/null || brew install $(1)
-install_brew_cask = brew list --cask --versions $(1) > /dev/null || brew install --cask --no-quarantine  --force $(1) 
+install_brew_cask = brew list --cask --versions $(1) > /dev/null || brew install --cask --no-quarantine  --force $(1)
 install_mas_app = mas install $(1)
 uninstall_brew_package = brew rm $$(brew deps $(1)) $(1)
 uninstall_brew_cask = brew rm $(1)
@@ -25,41 +27,63 @@ uninstall_brew_cask = brew rm $(1)
 
 all: install
 
-install: brew-packages addons macos-preferences link
+install: brew-packages addons macos-preferences link valet
 
 addons: vs-code-extensions meslo-nerd-font
 
+valet: @$(call install_brew_package,php)
+	composer global require laravel/valet
+	valet install
+	valet domain localhost
+	valet use php@8.0
+	[ -d $(SITES_DIR) ] || mkdir -p $(SITES_DIR)
+	cd $(SITES_DIR)
+	valet park
+	cd $(HOME)
+
+
 brew-packages: brew-taps
-	@brew update --force	
+	@brew update --force
 # Programming language prerequisites and package managers
+	@$(call install_brew_package,composer)
 	@$(call install_brew_package,git)
 	@$(call install_brew_package,volta)
 # Terminal tools
 	@$(call install_brew_package,antigen)
 	@$(call install_brew_cask,iterm2)
+	@$(call install_brew_cask,fig)
 	@defaults write com.googlecode.iterm2 PrefsCustomFolder $(DOTFILES_DIR)/files
 	@defaults write com.googlecode.iterm2 LoadPrefsFromCustomFolder -bool true
 # Dev tools
-	@$(call install_brew_cask,docker)
+	@$(call install_brew_package,php-cs-fixer)
+	@$(call install_brew_package,jpegoptim)
+	@$(call install_brew_package,optipng)
+	@$(call install_brew_package,imagemagick)
+	@$(call install_brew_package,browserstacklocal)
+	@$(call install_brew_cask,sketch)
 	@$(call install_brew_cask,tableplus)
+	@$(call install_brew_cask,tunnelblick)
 	@$(call install_brew_cask,visual-studio-code)
-	@$(call install_brew_package,dokku/repo/dokku)
 # Productivity
+	@$(call install_brew_cask,clockify)
+	@$(call install_brew_cask,dropbox)
 	@$(call install_brew_cask,google-drive)
 	@$(call install_brew_cask,1password)
 	@$(call install_brew_cask,notion)
+# Communication
+	@$(call install_brew_cask,microsoft-teams)
 	@$(call install_brew_cask,slack)
+	@$(call install_brew_cask,whatsapp)
 # Browsers
 	@$(call install_brew_cask,google-chrome)
 	@$(call install_brew_cask,firefox-developer-edition)
-# Audio & Video	
+# Audio & Video
+	@$(call install_brew_cask,amazon-music)
 	@$(call install_brew_cask,iina)
 	@$(call install_brew_cask,spotify)
 # macOS utils
 	@$(call install_brew_package,dockutil)
 	@sudo curl -sL https://raw.githubusercontent.com/kcrawford/dockutil/master/scripts/dockutil -o $(DOCKUTIL_PATH) && sudo chmod +x $(DOCKUTIL_PATH)
-	@$(call install_brew_cask,keka)
-	@$(call install_brew_cask,kekaexternalhelper)
 	@$(call install_brew_cask,finicky)
 	@$(call install_brew_package,mas)
 
@@ -67,10 +91,27 @@ mas-apps: brew-packages
 ifndef GITHUB_ACTION
 # Keynote
 	@$(call install_mas_app,409183694)
-# Numbers	
+# Numbers
 	@$(call install_mas_app,409203825)
-# Pages	
+# Pages
 	@$(call install_mas_app,409201541)
+# Magnet
+	@$(call install_mas_app,441258766)
+# LittleIpsum
+	@$(call install_mas_app,405772121)
+# Microsoft To Do
+	@$(call install_mas_app,1274495053)
+# Save to Raindrop.io
+	@$(call install_mas_app,1549370672)
+# Flycut
+	@$(call install_mas_app,442160987)
+# Affinity Designer
+	@$(call install_mas_app,824171161)
+# Affinity Photo
+	@$(call install_mas_app,824183456)
+# Spark
+	@$(call install_mas_app,1176895641)
+
 endif
 
 sudo:
