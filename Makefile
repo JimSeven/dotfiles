@@ -47,7 +47,9 @@ brew-packages: brew-taps
 # Programming language prerequisites and package managers
 	@$(call install_brew_package,composer)
 	@$(call install_brew_package,git)
+	@$(call install_brew_package,git-lfs)
 	@$(call install_brew_package,volta)
+	@$(call install_brew_package,php@8.0)
 # Terminal tools
 	@$(call install_brew_package,antigen)
 	@$(call install_brew_cask,iterm2)
@@ -64,11 +66,11 @@ brew-packages: brew-taps
 	@$(call install_brew_cask,tableplus)
 	@$(call install_brew_cask,tunnelblick)
 	@$(call install_brew_cask,visual-studio-code)
+	@$(call install_brew_cask,sourcetree)
 # Productivity
 	@$(call install_brew_cask,clockify)
 	@$(call install_brew_cask,dropbox)
 	@$(call install_brew_cask,google-drive)
-	@$(call install_brew_cask,1password)
 	@$(call install_brew_cask,notion)
 # Communication
 	@$(call install_brew_cask,microsoft-teams)
@@ -82,7 +84,7 @@ brew-packages: brew-taps
 	@$(call install_brew_cask,iina)
 	@$(call install_brew_cask,spotify)
 # macOS utils
-	@$(call install_brew_package,dockutil)
+	@$(call install_brew_package,hpedrorodrigues/tools/dockutil)
 	@sudo curl -sL https://raw.githubusercontent.com/kcrawford/dockutil/master/scripts/dockutil -o $(DOCKUTIL_PATH) && sudo chmod +x $(DOCKUTIL_PATH)
 	@$(call install_brew_cask,finicky)
 	@$(call install_brew_package,mas)
