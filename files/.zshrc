@@ -7,7 +7,7 @@ fi
 
 # Volta
 export VOLTA_HOME="$HOME/.volta"
-export PATH="$VOLTA_HOME/bin:$PATH"
+export PATH="/usr/local/sbin:$VOLTA_HOME/bin:$PATH"
 
 # Load Antigen
 source $(brew --prefix)/share/antigen/antigen.zsh

@@ -17,7 +17,7 @@ fi
 
 if [ ! -d "$DOTFILES_PATH" ]; then
   echo "Installing dotfiles..."
-  git clone https://github.com/robocopklaus/dotfiles.git $DOTFILES_PATH
+  git clone https://github.com/JimSeven/dotfiles.git $DOTFILES_PATH
 else
   echo "Updating dotfiles..."
   git -C $DOTFILES_PATH pull --rebase
