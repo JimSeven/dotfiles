@@ -5,7 +5,7 @@ module.exports = {
   },
   handlers: [
     {
-      match: ["whereby.com/*", "meet.google.com/*", "*.youtube.com/*", "youtu.be/*"],
+      match: ["whereby.com/*", "meet.google.com/*", "*.youtube.com/*", "youtu.be/*", "teams.microsoft.com/*"],
       browser: "Google Chrome"
     }
   ]
