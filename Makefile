@@ -7,8 +7,6 @@ DOTFILES_DIR := $(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
 # List all dotfiles
 HOMEFILES := $(shell ls -A files | grep "^\.")
 DOTFILES := $(addprefix $(HOME)/,$(HOMEFILES))
-# Path to dockutil script
-DOCKUTIL_PATH = /usr/local/bin/dockutil
 # Path to macOS user fonts
 FONTS_DIR := $(HOME)/Library/Fonts
 # Path to website project
@@ -57,6 +55,7 @@ brew-packages: brew-taps
 	@defaults write com.googlecode.iterm2 PrefsCustomFolder $(DOTFILES_DIR)/files
 	@defaults write com.googlecode.iterm2 LoadPrefsFromCustomFolder -bool true
 # Dev tools
+	@$(call install_brew_cask,docker)	
 	@$(call install_brew_package,php-cs-fixer)
 	@$(call install_brew_package,jpegoptim)
 	@$(call install_brew_package,optipng)
@@ -84,8 +83,9 @@ brew-packages: brew-taps
 	@$(call install_brew_cask,iina)
 	@$(call install_brew_cask,spotify)
 # macOS utils
-	@$(call install_brew_package,hpedrorodrigues/tools/dockutil)
-	@sudo curl -sL https://raw.githubusercontent.com/kcrawford/dockutil/master/scripts/dockutil -o $(DOCKUTIL_PATH) && sudo chmod +x $(DOCKUTIL_PATH)
+	@$(call install_brew_cask,hpedrorodrigues/tools/dockutil)
+	@$(call install_brew_cask,keka)
+	@$(call install_brew_cask,kekaexternalhelper)
 	@$(call install_brew_cask,finicky)
 	@$(call install_brew_package,mas)
 
@@ -125,10 +125,10 @@ ifndef GITHUB_ACTION
 endif
 
 brew: sudo
-	@command -v brew >/dev/null 2>&1 || curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh | bash
+	@command -v brew >/dev/null 2>&1 || curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh | bash
 
 uninstall-brew: sudo
-	@! command -v brew >/dev/null 2>&1 || curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/uninstall.sh | bash
+	@! command -v brew >/dev/null 2>&1 || curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/uninstall.sh | bash
 
 brew-taps: brew
 	@brew tap homebrew/cask-versions
@@ -156,6 +156,9 @@ vs-code-extensions:
 	@$(call install_vscode_extension,richie5um2.vscode-sort-json)
 	@$(call install_vscode_extension,stylelint.vscode-stylelint)
 	@$(call install_vscode_extension,vivaxy.vscode-conventional-commits)
+	@$(call install_vscode_extension,formulahendry.auto-rename-tag)
+	@$(call install_vscode_extension,shevaua.phpcs)
+	@$(call install_vscode_extension,stillat-llc.vscode-antlers)
 
 meslo-nerd-font:
 	@echo Installing Meslo LGS Nerd Font...
