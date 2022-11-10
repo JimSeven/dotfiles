@@ -17,6 +17,7 @@ install_vscode_extension = code --install-extension $(1)
 install_brew_package = brew list --versions $(1) > /dev/null || brew install $(1)
 install_brew_cask = brew list --cask --versions $(1) > /dev/null || brew install --cask --no-quarantine  --force $(1)
 install_mas_app = mas install $(1)
+install_npm_package = npm install --global $(1)
 uninstall_brew_package = brew rm $$(brew deps $(1)) $(1)
 uninstall_brew_cask = brew rm $(1)
 
@@ -25,9 +26,12 @@ uninstall_brew_cask = brew rm $(1)
 
 all: install
 
-install: brew-packages addons macos-preferences link valet
+install: brew-packages addons macos-preferences link valet npm-packages
 
 addons: vs-code-extensions meslo-nerd-font
+
+npm-packages:
+	@$(call install_npm_package,trash-cli)
 
 valet: @$(call install_brew_package,php)
 	composer global require laravel/valet
@@ -66,11 +70,14 @@ brew-packages: brew-taps
 	@$(call install_brew_cask,tunnelblick)
 	@$(call install_brew_cask,visual-studio-code)
 	@$(call install_brew_cask,sourcetree)
+
 # Productivity
 	@$(call install_brew_cask,clockify)
 	@$(call install_brew_cask,dropbox)
 	@$(call install_brew_cask,google-drive)
 	@$(call install_brew_cask,notion)
+	@$(call install_brew_cask,1password)
+	@$(call install_brew_cask,1password-cli)
 # Communication
 	@$(call install_brew_cask,microsoft-teams)
 	@$(call install_brew_cask,slack)
@@ -79,7 +86,6 @@ brew-packages: brew-taps
 	@$(call install_brew_cask,google-chrome)
 	@$(call install_brew_cask,firefox-developer-edition)
 # Audio & Video
-	@$(call install_brew_cask,amazon-music)
 	@$(call install_brew_cask,iina)
 	@$(call install_brew_cask,spotify)
 # macOS utils
