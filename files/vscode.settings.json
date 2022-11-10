@@ -17,9 +17,6 @@
   "[jsonc]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "[php]": {
-    "editor.tabSize": 4
-  },
   "[typescript]": {
     "editor.formatOnSave": false
   },
@@ -36,6 +33,9 @@
   "editor.minimap.enabled": false,
   "editor.tabSize": 2,
   "editor.wordWrap": "on",
+  "emmet.includeLanguages": {
+    "postcss": "css"
+  },
   "eslint.alwaysShowStatus": true,
   "explorer.confirmDelete": false,
   "explorer.openEditors.visible": 0,
@@ -44,10 +44,17 @@
   "git.enableSmartCommit": true,
   "javascript.updateImportsOnFileMove.enabled": "always",
   "redhat.telemetry.enabled": false,
+  "security.workspace.trust.untrustedFiles": "open",
+  "tailwindCSS.emmetCompletions": true,
   "telemetry.enableTelemetry": false,
+  "terminal.integrated.env.osx": {
+    "FIG_NEW_SESSION": "1"
+  },
   "terminal.integrated.fontFamily": "MesloLGS NF",
   "typescript.updateImportsOnFileMove.enabled": "always",
+  "window.zoomLevel": 1,
   "workbench.colorTheme": "Material Neutral",
+  "workbench.editor.enablePreview": false,
   "workbench.iconTheme": "material-icon-theme",
   "workbench.startupEditor": "newUntitledFile"
 }
