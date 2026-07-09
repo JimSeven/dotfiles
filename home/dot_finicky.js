@@ -1,5 +1,5 @@
 module.exports = {
-  defaultBrowser: "Safari",
+  defaultBrowser: "Arc",
   options: {
     hideIcon: true,
   },
