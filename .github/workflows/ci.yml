@@ -2,29 +2,29 @@ name: CI
 
 on:
   push:
-  schedule:
-    - cron: "0 12 * * 0"
+  pull_request:
 
 jobs:
-  install:
+  lint:
     runs-on: macos-latest
     steps:
-      # - name: Clean up installed software
-      #   run: |
-      #     brew uninstall --force $(brew list --formula)
-      #     brew untap adoptopenjdk/openjdk
-      #     brew uninstall --cask --force $(brew list --cask)
-      #     brew cleanup --prune-prefix
-      #     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/uninstall.sh)"
-      #     rm -rf "$NVM_DIR"
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: Clone this repository
-        uses: actions/checkout@v2
+      - name: Install tools
+        run: brew install chezmoi shellcheck
 
-      - name: Install everything
+      - name: Shellcheck shell scripts
         run: |
-          make
+          shellcheck \
+            scripts/bootstrap.sh \
+            home/run_onchange_after_20-macos-defaults.sh \
+            home/run_onchange_after_30-dock.sh
 
-      - name: Run tests
+      - name: Validate the Brewfile parses
+        run: brew bundle list --all --file=home/Brewfile >/dev/null
+
+      - name: Render chezmoi templates (dry-run, no changes)
         run: |
-          make test
+          chezmoi init --source="$PWD"
+          chezmoi apply --dry-run --force --source="$PWD"

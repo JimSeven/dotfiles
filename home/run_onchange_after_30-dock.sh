@@ -43,6 +43,6 @@ dockutil --no-restart --add "/System/Applications/System Settings.app"
 
 # Folders
 dockutil --no-restart --add "/Applications" --view auto --display folder --sort name
-dockutil --no-restart --add '~/Downloads' --view auto --display folder --sort dateadded
+dockutil --no-restart --add "$HOME/Downloads" --view auto --display folder --sort dateadded
 
 killall Dock
