@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Installs the Homebrew Manifest. chezmoi re-runs this script automatically
+# whenever the rendered content below changes (i.e. whenever the Brewfile changes).
+#
+# Brewfile hash: {{ include "Brewfile" | sha256sum }}
+
+if ! command -v brew >/dev/null 2>&1; then
+  echo "Homebrew not found — run the bootstrap script first (see README)." >&2
+  exit 1
+fi
+
+echo "==> brew bundle: installing packages from the Brewfile"
+brew bundle --no-lock --file=/dev/stdin <<'BREWFILE'
+{{ include "Brewfile" -}}
+BREWFILE

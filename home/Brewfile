@@ -1,0 +1,95 @@
+# Brewfile — the declarative package manifest (see docs/adr/0001).
+#
+# Installed via `brew bundle` (run automatically by chezmoi on change).
+# `brew bundle cleanup --file=~/.local/share/chezmoi/home/Brewfile` reports packages
+# NOT listed here — removal is always manual, never automatic (grilling decision).
+
+###############################################################################
+# Command-line tools                                                          #
+###############################################################################
+
+brew "mas"           # Mac App Store CLI — keep first so mas apps below can install
+brew "chezmoi"       # this repo's dotfile manager
+brew "git"           # newer than the system Git
+brew "git-lfs"       # Git large-file storage
+brew "mise"          # polyglot version manager (Node, PHP, …) — replaces Volta
+brew "antidote"      # zsh plugin manager — replaces antigen
+brew "starship"      # cross-shell prompt — replaces powerlevel10k
+brew "dockutil"      # manage macOS Dock items (used by the Dock provisioning script)
+brew "php-cs-fixer"  # PHP code-style fixer
+brew "jpegoptim"     # JPEG optimiser
+brew "optipng"       # PNG optimiser
+brew "imagemagick"   # image manipulation
+
+###############################################################################
+# Terminal & shell                                                            #
+###############################################################################
+
+cask "ghostty"       # GPU-accelerated terminal — replaces iTerm2
+
+###############################################################################
+# Development                                                                 #
+###############################################################################
+
+cask "visual-studio-code"
+cask "orbstack"      # fast Docker/Linux VMs — replaces Docker Desktop
+cask "fork"          # Git GUI — replaces Sourcetree
+cask "herd"          # Laravel Herd: bundled PHP + nginx — replaces Valet + php@8.0
+cask "tableplus"     # database GUI
+
+###############################################################################
+# Design                                                                      #
+###############################################################################
+
+cask "figma"
+cask "sketch"        # kept for legacy projects
+
+###############################################################################
+# Productivity                                                                #
+###############################################################################
+
+cask "raycast"       # launcher + clipboard history + window mgmt — replaces Magnet + Flycut
+cask "1password"
+cask "1password-cli" # required for chezmoi secret templates (see ADR-0002)
+cask "notion"
+cask "google-drive"
+cask "clockify"
+cask "mimestream"    # native Gmail client — replaces Spark
+
+###############################################################################
+# Communication                                                               #
+###############################################################################
+
+cask "slack"
+cask "microsoft-teams"
+cask "whatsapp"
+
+###############################################################################
+# Browsers                                                                    #
+###############################################################################
+
+cask "google-chrome"
+cask "firefox@developer-edition"
+
+###############################################################################
+# Media                                                                       #
+###############################################################################
+
+cask "iina"          # media player
+cask "spotify"
+
+###############################################################################
+# macOS utilities                                                             #
+###############################################################################
+
+cask "keka"          # file archiver
+cask "kekaexternalhelper"
+cask "finicky"       # per-URL browser routing
+
+###############################################################################
+# Mac App Store                                                               #
+###############################################################################
+
+mas "Keynote", id: 409183694
+mas "Numbers", id: 409203825
+mas "Pages",   id: 409201541
