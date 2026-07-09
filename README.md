@@ -45,8 +45,7 @@ and applies the macOS defaults and Dock layout.
 | Dotfile manager | chezmoi                                                       |
 | Shell           | zsh + [antidote](https://getantidote.github.io/) + [Starship](https://starship.rs) |
 | Terminal        | [Ghostty](https://ghostty.org)                                |
-| Versions        | [mise](https://mise.jdx.dev) (Node, PHP, …)                   |
-| PHP dev         | [Laravel Herd](https://herd.laravel.com)                      |
+| PHP & Node      | [Laravel Herd](https://herd.laravel.com) (bundled PHP + NVM)  |
 | Packages        | Homebrew via `brew bundle` ([Brewfile](./home/Brewfile))      |
 | Secrets / SSH   | 1Password (SSH agent + commit signing)                        |
 | Editor          | VS Code (extensions in the Brewfile)                          |

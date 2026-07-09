@@ -12,8 +12,9 @@ brew "mas"           # Mac App Store CLI — keep first so mas apps below can in
 brew "chezmoi"       # this repo's dotfile manager
 brew "git"           # newer than the system Git
 brew "git-lfs"       # Git large-file storage
-brew "mise"          # polyglot version manager (Node, PHP, …) — replaces Volta
 brew "antidote"      # zsh plugin manager — replaces antigen
+brew "direnv"        # per-directory environment variables
+brew "mysql-client"  # MySQL CLI (keg-only)
 brew "starship"      # cross-shell prompt — replaces powerlevel10k
 brew "dockutil"      # manage macOS Dock items (used by the Dock provisioning script)
 brew "php-cs-fixer"  # PHP code-style fixer
