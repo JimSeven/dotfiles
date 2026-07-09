@@ -78,10 +78,25 @@ brew bundle cleanup --file="$(chezmoi source-path)/Brewfile"   # reports only; r
 │   ├── Brewfile              # package manifest
 │   └── run_onchange_*        # provisioning: brew bundle, macOS defaults, Dock
 ├── scripts/bootstrap.sh      # fresh-machine bootstrap
+├── .githooks/pre-commit      # gitleaks secret gate (see below)
 ├── docs/adr/                 # architectural decisions
 ├── CONTEXT.md                # domain glossary
-└── .github/workflows/ci.yml  # lint (shellcheck, Brewfile, chezmoi dry-run)
+└── .github/workflows/ci.yml  # lint (shellcheck, Brewfile, chezmoi dry-run, gitleaks)
 ```
+
+## Secret gate
+
+The repo is public, so [gitleaks](https://github.com/gitleaks/gitleaks) guards
+it at two points (see [ADR-0006](./docs/adr/0006-agent-config-managed-vs-runtime.md)):
+a pre-commit hook scans staged changes, and CI re-scans the whole tree on every
+push. Enable the local hook once per clone:
+
+```sh
+git config core.hooksPath .githooks
+```
+
+`gitleaks` ships in the [Brewfile](./home/Brewfile); if it's missing the hook
+tells you to `brew install gitleaks`.
 
 ## License
 

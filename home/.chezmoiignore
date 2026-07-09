@@ -3,3 +3,53 @@
 # The Brewfile is consumed by run_onchange_before_10-install-packages.sh via
 # `include`; it must not be copied to ~/Brewfile.
 Brewfile
+
+# OS junk — never track anywhere.
+.DS_Store
+
+###############################################################################
+# AI agent config — version Managed config, never Runtime state (ADR-0006).   #
+#                                                                             #
+# Each agent dotfolder is managed as a PLAIN (never exact_) directory, so an  #
+# apply can never delete unmanaged Runtime state. These rules are the strict  #
+# safety floor: default-deny the WHOLE dotfolder, so an accidental            #
+# `chezmoi add ~/.claude` (or ~/.codex) can never sweep in credentials,       #
+# transcripts, history, caches, sqlite stores/logs or plugin payloads.        #
+# Later commits re-include the specific Managed config paths (settings.json,  #
+# CLAUDE.md, rules/, agents/, commands/, self-authored skills/, statusline    #
+# for Claude; config.toml + rules/ for Codex) with `!` negations, added       #
+# alongside each managed file as it is brought under chezmoi.                 #
+###############################################################################
+
+# --- Claude Code (~/.claude) -------------------------------------------------
+# Denies all Runtime state, notably:
+#   .credentials.json                     credentials/auth
+#   settings.local.json                   local settings override
+#   projects/ sessions/ session-env/      session transcripts
+#   history.jsonl                         prompt history
+#   file-history/ shell-snapshots/        file-history, shell snapshots
+#   cache/ image-cache/ paste-cache/      caches
+#   *-cache.json remote-settings.json     caches / fetched state
+#   plugins/                              installed plugin payloads
+#   backups/ plans/ tasks/ ide/ chrome/   misc runtime
+#   context-mode/ policy-limits.json      plugin runtime / telemetry
+#   .last-cleanup *.lock                  runtime markers / locks
+.claude/**
+
+# --- Codex (~/.codex) --------------------------------------------------------
+# Denies all Runtime state, notably:
+#   auth.json                             credentials/auth
+#   sessions/ session_index.jsonl         session transcripts
+#   history.jsonl                         prompt history
+#   shell_snapshots/                      shell snapshots
+#   cache/ models_cache.json              caches
+#   *.sqlite *.sqlite-shm *.sqlite-wal    sqlite stores
+#   sqlite/ log/                          sqlite stores / logs
+#   memories/ vendor_imports/ node_repl/  misc runtime
+#   browser/ computer-use/ process_manager/
+#   generated_images/ attachments/        generated artefacts
+#   plugins/                              installed plugin payloads
+#   tmp/ .tmp/ *.bak                       temp / backups
+#   installation_id version.json          telemetry / runtime markers
+#   .codex-global-state.json .personality_migration
+.codex/**

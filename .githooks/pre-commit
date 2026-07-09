@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Secret gate (ADR-0006). This repo is public: a credential pasted into an
+# otherwise-tracked file must never reach a commit. gitleaks scans the staged
+# changes and aborts the commit on any finding.
+#
+# Activate once per clone:  git config core.hooksPath .githooks
+# (CI re-scans the whole tree, so a bypassed local hook is still caught.)
+
+if ! command -v gitleaks >/dev/null 2>&1; then
+  echo "pre-commit: gitleaks not found. Install it to enable the secret gate:" >&2
+  echo "  brew install gitleaks" >&2
+  exit 1
+fi
+
+exec gitleaks git --staged --redact --no-banner
