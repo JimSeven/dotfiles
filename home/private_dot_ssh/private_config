@@ -1,0 +1,6 @@
+# ~/.ssh/config — managed by chezmoi.
+# Use the 1Password SSH agent for all hosts (see ADR-0002).
+# Requires: 1Password → Settings → Developer → "Use the SSH agent".
+
+Host *
+  IdentityAgent "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"

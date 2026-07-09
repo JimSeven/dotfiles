@@ -94,3 +94,25 @@ cask "finicky"       # per-URL browser routing
 mas "Keynote", id: 409183694
 mas "Numbers", id: 409203825
 mas "Pages",   id: 409201541
+
+###############################################################################
+# VS Code extensions                                                          #
+###############################################################################
+
+vscode "bernardodsanderson.theme-material-neutral"
+vscode "pkief.material-icon-theme"
+vscode "esbenp.prettier-vscode"
+vscode "dbaeumer.vscode-eslint"
+vscode "stylelint.vscode-stylelint"
+vscode "graphql.vscode-graphql"
+vscode "prisma.prisma"
+vscode "ms-azuretools.vscode-docker"
+vscode "redhat.vscode-yaml"
+vscode "mikestead.dotenv"
+vscode "mechatroner.rainbow-csv"
+vscode "richie5um2.vscode-sort-json"
+vscode "formulahendry.auto-rename-tag"
+vscode "vivaxy.vscode-conventional-commits"
+vscode "ms-vsliveshare.vsliveshare"
+vscode "shevaua.phpcs"              # PHP (legacy projects)
+vscode "stillat-llc.vscode-antlers" # Statamic Antlers (legacy projects)
