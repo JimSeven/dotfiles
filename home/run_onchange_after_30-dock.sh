@@ -1,4 +1,13 @@
 #!/usr/bin/env bash
+set -euo pipefail
+
+# Rebuild the Dock with dockutil (managed by chezmoi; re-runs when this changes).
+# dockutil is installed via the Brewfile.
+
+if ! command -v dockutil >/dev/null 2>&1; then
+  echo "dockutil not found — skipping Dock setup (install via Brewfile first)." >&2
+  exit 0
+fi
 
 dockutil --no-restart --remove all
 
@@ -14,7 +23,6 @@ dockutil --no-restart --add "/Applications/Firefox Developer Edition.app"
 dockutil --no-restart --add '' --type small-spacer --section apps
 
 # Communication
-dockutil --no-restart --add "/System/Applications/Mail.app"
 dockutil --no-restart --add "/Applications/Mimestream.app"
 dockutil --no-restart --add "/Applications/Slack.app"
 dockutil --no-restart --add "/System/Applications/Messages.app"
@@ -27,11 +35,11 @@ dockutil --no-restart --add '' --type small-spacer --section apps
 
 # Dev
 dockutil --no-restart --add "/Applications/Visual Studio Code.app"
-dockutil --no-restart --add "/Applications/iTerm.app"
+dockutil --no-restart --add "/Applications/Ghostty.app"
 dockutil --no-restart --add '' --type small-spacer --section apps
 
-# System preferences
-dockutil --no-restart --add "/System/Applications/System Preferences.app"
+# System
+dockutil --no-restart --add "/System/Applications/System Settings.app"
 
 # Folders
 dockutil --no-restart --add "/Applications" --view auto --display folder --sort name
