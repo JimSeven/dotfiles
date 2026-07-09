@@ -1,9 +1,8 @@
 [user]
 	name = {{ .name | quote }}
 	email = {{ .email | quote }}
-	# Public SSH signing key. TODO: replace this placeholder with your key from
-	# 1Password (the key item → "Copy Public Key"). Format: ssh-ed25519 AAAA...
-	signingkey = ssh-ed25519 PLACEHOLDER_REPLACE_AFTER_1PASSWORD_SETUP
+	# Public SSH signing key (held in 1Password; op-ssh-sign does the signing).
+	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIEwNiFhG8ll2NQIRKDEaTkm3s9pxxQ6HTR9wiuJKmL/
 
 [init]
 	# Name the first branch "main" instead of "master".
