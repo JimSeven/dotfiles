@@ -8,6 +8,8 @@
 # Command-line tools                                                          #
 ###############################################################################
 
+tap "anomalyco/tap"  # third-party tap providing opencode
+
 brew "mas"           # Mac App Store CLI — keep first so mas apps below can install
 brew "chezmoi"       # this repo's dotfile manager
 brew "git"           # newer than the system Git
@@ -29,6 +31,12 @@ brew "php-cs-fixer"  # PHP code-style fixer
 brew "jpegoptim"     # JPEG optimiser
 brew "optipng"       # PNG optimiser
 brew "imagemagick"   # image manipulation
+brew "ffmpeg"        # audio/video transcoding
+brew "gh"            # GitHub CLI (PRs, issues, releases)
+brew "shellcheck"    # shell-script linter (matches CI lint step)
+brew "uv"            # fast Python package & version manager (Astral) — no global python pin
+brew "gogcli"        # Google Workspace CLI
+brew "anomalyco/tap/opencode"  # AI coding agent CLI
 
 ###############################################################################
 # Terminal & shell                                                            #
@@ -48,6 +56,15 @@ cask "herd"          # Laravel Herd: bundled PHP + nginx — replaces Valet + ph
 cask "tableplus"     # database GUI
 
 ###############################################################################
+# AI tools                                                                    #
+###############################################################################
+
+cask "claude-code"   # Claude Code — agentic coding CLI/app
+cask "claude"        # Claude desktop app
+cask "chatgpt"       # ChatGPT desktop app
+cask "codex"         # OpenAI Codex
+
+###############################################################################
 # Design                                                                      #
 ###############################################################################
 
@@ -62,6 +79,7 @@ cask "raycast"       # launcher + clipboard history + window mgmt — replaces M
 cask "1password"
 cask "1password-cli" # required for chezmoi secret templates (see ADR-0002)
 cask "notion"
+cask "obsidian"      # Markdown knowledge base (its CLI PATH is set in ~/.zprofile)
 cask "google-drive"
 cask "clockify"
 cask "mimestream"    # native Gmail client — replaces Spark
@@ -71,13 +89,13 @@ cask "mimestream"    # native Gmail client — replaces Spark
 ###############################################################################
 
 cask "slack"
-cask "microsoft-teams"
 cask "whatsapp"
 
 ###############################################################################
 # Browsers                                                                    #
 ###############################################################################
 
+cask "arc"           # default browser (see ~/.finicky.js routing)
 cask "google-chrome"
 cask "firefox@developer-edition"
 
@@ -86,7 +104,6 @@ cask "firefox@developer-edition"
 ###############################################################################
 
 cask "iina"          # media player
-cask "spotify"
 
 ###############################################################################
 # macOS utilities                                                             #
@@ -94,7 +111,10 @@ cask "spotify"
 
 cask "keka"          # file archiver
 cask "kekaexternalhelper"
-cask "finicky"       # per-URL browser routing
+cask "finicky"       # per-URL browser routing (config in ~/.finicky.js)
+cask "alt-tab"       # Windows-style window switcher with previews
+cask "stats"         # system monitor in the menu bar
+cask "itsycal"       # small menu-bar calendar
 
 ###############################################################################
 # Mac App Store                                                               #
@@ -115,13 +135,18 @@ vscode "editorconfig.editorconfig"            # honour .editorconfig
 vscode "eamodio.gitlens"                       # git blame / history
 vscode "streetsidesoftware.code-spell-checker" # spell checking
 vscode "pkief.material-icon-theme"            # file icons
+vscode "formulahendry.auto-rename-tag"        # rename paired HTML/Blade/JSX tags
+vscode "christian-kohler.npm-intellisense"    # autocomplete npm imports
+vscode "vivaxy.vscode-conventional-commits"   # guided conventional commit messages
 
-# Format & lint (JS/TS)
+# Format & lint (JS/TS/CSS)
 vscode "esbenp.prettier-vscode"
 vscode "dbaeumer.vscode-eslint"
+vscode "stylelint.vscode-stylelint"           # CSS/SCSS linting
 
 # DevOps & config
-vscode "ms-azuretools.vscode-docker"
+vscode "ms-azuretools.vscode-containers"      # container tooling (successor to vscode-docker)
+vscode "github.vscode-github-actions"         # GitHub Actions workflow support
 vscode "redhat.vscode-yaml"
 vscode "mikestead.dotenv"
 vscode "mechatroner.rainbow-csv"
@@ -134,3 +159,16 @@ vscode "graphql.vscode-graphql"               # GraphQL
 # Stack: PHP / Laravel
 vscode "laravel.vscode-laravel"               # official Laravel extension
 vscode "bmewburn.vscode-intelephense-client"  # PHP language server
+vscode "amiralizadeh9480.laravel-extra-intellisense" # routes/views/config autocomplete
+vscode "onecentlin.laravel-blade"             # Blade syntax highlighting
+vscode "shufo.vscode-blade-formatter"         # Blade formatter
+vscode "open-southeners.laravel-pint"         # Pint formatting
+
+# Stack: Python
+vscode "ms-python.python"                     # Python language support
+vscode "ms-python.vscode-pylance"             # Pylance language server
+vscode "ms-python.debugpy"                    # Python debugger
+
+# AI in the editor
+vscode "anthropic.claude-code"                # Claude Code extension
+vscode "openai.chatgpt"                       # ChatGPT extension
