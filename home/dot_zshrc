@@ -1,27 +1,12 @@
-# ~/.zshrc — interactive shell configuration (managed by chezmoi).
-# Prompt: Starship · Plugins: antidote · Versions: mise.
-# Login-shell PATH (Homebrew) is set in ~/.zprofile.
+# ~/.zshrc — thin entry point (managed by chezmoi; see ADR-0004).
+# Sources numbered modules from ~/.config/zsh in prefix order, then a
+# machine-local escape hatch that chezmoi does not manage.
 
-# --- PATH -------------------------------------------------------------------
-# Global Composer tools (PHP runtime itself comes from Laravel Herd / mise).
-export COMPOSER_HOME="$HOME/.composer"
-export PATH="$COMPOSER_HOME/vendor/bin:$PATH"
+_zsh_modules="${XDG_CONFIG_HOME:-$HOME/.config}/zsh"
+for _mod in "$_zsh_modules"/*.zsh(N); do
+  [[ -r "$_mod" ]] && source "$_mod"
+done
+unset _mod _zsh_modules
 
-# --- Plugins: antidote ------------------------------------------------------
-# Bundle list lives in ~/.zsh_plugins.txt.
-antidote_zsh="$(brew --prefix antidote 2>/dev/null)/share/antidote/antidote.zsh"
-if [[ -r "$antidote_zsh" ]]; then
-  source "$antidote_zsh"
-  antidote load "${ZDOTDIR:-$HOME}/.zsh_plugins.txt"
-fi
-unset antidote_zsh
-
-# --- Completions ------------------------------------------------------------
-# Run after antidote so completion plugins are on $fpath.
-autoload -Uz compinit && compinit
-
-# --- Version manager: mise --------------------------------------------------
-command -v mise >/dev/null 2>&1 && eval "$(mise activate zsh)"
-
-# --- Prompt: Starship -------------------------------------------------------
-command -v starship >/dev/null 2>&1 && eval "$(starship init zsh)"
+# Machine-local overrides / tool auto-injections (not version-controlled).
+[[ -f "$HOME/.zshrc.local" ]] && source "$HOME/.zshrc.local"

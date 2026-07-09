@@ -21,6 +21,9 @@ jobs:
             home/run_onchange_after_20-macos-defaults.sh \
             home/run_onchange_after_30-dock.sh
 
+      - name: Syntax-check zsh modules
+        run: zsh -n home/dot_zshrc home/dot_config/zsh/*.zsh
+
       - name: Validate the Brewfile parses
         run: brew bundle list --all --file=home/Brewfile >/dev/null
 

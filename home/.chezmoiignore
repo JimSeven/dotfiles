@@ -3,3 +3,7 @@
 # The Brewfile is consumed by run_onchange_before_10-install-packages.sh via
 # `include`; it must not be copied to ~/Brewfile.
 Brewfile
+
+# npm-globals.txt is consumed by run_onchange_after_40-npm-globals.sh via
+# `include`; it must not be copied to ~/npm-globals.txt.
+npm-globals.txt

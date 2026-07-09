@@ -37,3 +37,13 @@ _Avoid_: Hook, post-install script.
 A value that must never appear in the repo in plaintext (SSH keys, signing keys, tokens).
 Resolved at Apply time from 1Password via the `op` CLI inside a chezmoi template.
 _Avoid_: Credential, password, env var.
+
+**Shell module**:
+A numbered `*.zsh` file under `~/.config/zsh` (e.g. `20-tools.zsh`), sourced by the thin
+`~/.zshrc` in prefix order. Each module owns one concern (path, env, tools, aliases, …).
+_Avoid_: Snippet, include, fragment.
+
+**Machine-local override**:
+`~/.zshrc.local` — sourced last by `~/.zshrc` and never managed by chezmoi. Holds
+machine-specific shell config and absorbs tool auto-injections (e.g. from Herd).
+_Avoid_: Local config, overrides file.

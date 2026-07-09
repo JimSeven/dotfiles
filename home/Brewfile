@@ -16,6 +16,13 @@ brew "antidote"      # zsh plugin manager — replaces antigen
 brew "direnv"        # per-directory environment variables
 brew "mysql-client"  # MySQL CLI (keg-only)
 brew "starship"      # cross-shell prompt — replaces powerlevel10k
+brew "eza"           # modern ls (icons, git-aware, tree)
+brew "zoxide"        # smart cd (`z`)
+brew "fzf"           # fuzzy finder (Ctrl-R / Ctrl-T)
+brew "bat"           # cat with syntax highlighting
+brew "fd"            # fast, friendly find
+brew "ripgrep"       # fast grep
+brew "micro"         # modern terminal editor ($EDITOR)
 brew "dockutil"      # manage macOS Dock items (used by the Dock provisioning script)
 brew "php-cs-fixer"  # PHP code-style fixer
 brew "jpegoptim"     # JPEG optimiser

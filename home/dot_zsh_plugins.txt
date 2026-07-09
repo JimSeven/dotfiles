@@ -1,7 +1,10 @@
-# antidote plugin bundle — loaded by ~/.zshrc.
-# Order matters: zsh-syntax-highlighting must stay last.
+# antidote plugin bundle — loaded by ~/.config/zsh/20-tools.zsh.
+# Order matters; zsh-syntax-highlighting must stay last.
 
-agkozak/zsh-z                      # jump to frequently-used dirs (maintained `z`)
-zsh-users/zsh-completions          # extra completions (added to $fpath)
-zsh-users/zsh-autosuggestions      # fish-like history suggestions
-zsh-users/zsh-syntax-highlighting  # command syntax highlighting — keep last
+mattmc3/ez-compinit                 # run compinit at the right time
+zsh-users/zsh-completions           # extra completions (added to fpath)
+ohmyzsh/ohmyzsh path:plugins/git    # standard git aliases (gst, gco, gp, gd, …)
+Aloxaf/fzf-tab                      # fzf-powered completion menu
+zsh-users/zsh-autosuggestions       # fish-like history suggestions
+MichaelAquilina/zsh-you-should-use  # nudge to use existing aliases
+zsh-users/zsh-syntax-highlighting   # command syntax highlighting — keep last
