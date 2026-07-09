@@ -1,2 +1,11 @@
+# Global gitignore — OS and editor noise only.
+# Project-specific ignores belong in each repository's own .gitignore.
+
 # macOS
 .DS_Store
+.AppleDouble
+.LSOverride
+
+# Editors
+*.swp
+*~
