@@ -1,0 +1,38 @@
+# Starship prompt configuration (managed by chezmoi).
+# Docs: https://starship.rs/config/
+
+# Two-line prompt: context on top, input on a clean second line.
+add_newline = true
+format = """
+$directory$git_branch$git_status$nodejs$php$cmd_duration
+$character"""
+
+[character]
+success_symbol = "[❯](bold green)"
+error_symbol = "[❯](bold red)"
+
+[directory]
+truncation_length = 3
+truncate_to_repo = true
+style = "bold cyan"
+
+[git_branch]
+symbol = " "
+style = "bold purple"
+
+[git_status]
+style = "bold yellow"
+
+[nodejs]
+symbol = " "
+style = "bold green"
+detect_files = ["package.json", ".nvmrc", ".node-version"]
+
+[php]
+symbol = " "
+style = "bold blue"
+
+[cmd_duration]
+min_time = 2000
+format = "took [$duration]($style) "
+style = "dimmed white"

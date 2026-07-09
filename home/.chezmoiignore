@@ -1,0 +1,5 @@
+# Files present in the source tree but NOT applied to $HOME.
+
+# The Brewfile is consumed by run_onchange_before_10-install-packages.sh via
+# `include`; it must not be copied to ~/Brewfile.
+Brewfile

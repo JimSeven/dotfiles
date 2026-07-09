@@ -1,0 +1,115 @@
+[user]
+	name = {{ .name | quote }}
+	email = {{ .email | quote }}
+	# Public SSH signing key (held in 1Password; op-ssh-sign does the signing).
+	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIEwNiFhG8ll2NQIRKDEaTkm3s9pxxQ6HTR9wiuJKmL/
+
+[init]
+	# Name the first branch "main" instead of "master".
+	defaultBranch = main
+
+[core]
+	# Normalise CRLF → LF on commit (leaves the working tree as-is).
+	autocrlf = input
+	# Global ignore file, managed as ~/.gitignore by chezmoi.
+	excludesfile = {{ .chezmoi.homeDir }}/.gitignore
+	# Route diff output through delta (syntax-highlighted pager).
+	pager = delta
+
+# Sign every commit and tag with an SSH key held in 1Password (see ADR-0002).
+[gpg]
+	# Sign using SSH keys rather than GPG.
+	format = ssh
+[gpg "ssh"]
+	# 1Password's helper performs the actual signing.
+	program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
+[commit]
+	gpgsign = true
+	# Show the full diff in the commit message editor for better messages.
+	verbose = true
+[tag]
+	gpgsign = true
+	# Sort tags as versions (v1.10 after v1.9), not lexically.
+	sort = version:refname
+
+[pull]
+	# Rebase local commits on top of upstream instead of creating merge commits.
+	rebase = true
+[push]
+	# Push the current branch to its matching upstream branch.
+	default = simple
+	# On first push of a new branch, create the upstream automatically
+	# (no more `git push -u origin <branch>`). Requires Git ≥ 2.37.
+	autoSetupRemote = true
+[rebase]
+	# Stash dirty changes before a rebase and re-apply them after.
+	autoStash = true
+	# Reorder/apply `fixup!`/`squash!` commits automatically.
+	autoSquash = true
+	# Update dependent local branches when a rebase rewrites shared commits.
+	updateRefs = true
+[fetch]
+	# Delete local remote-tracking branches that were removed on the remote.
+	prune = true
+[rerere]
+	# "Reuse recorded resolution": remember how conflicts were resolved and
+	# replay the resolution if the same conflict reappears.
+	enabled = true
+
+# Diff & merge experience: delta pager, three-way conflicts, VS Code as the tool.
+[interactive]
+	# Colour `git add -p` etc. through delta.
+	diffFilter = delta --color-only
+[delta]
+	# n / N to jump between diff hunks.
+	navigate = true
+	line-numbers = true
+[diff]
+	# Histogram produces clearer, more stable diffs than the default.
+	algorithm = histogram
+	# Highlight moved lines distinctly from added/removed ones.
+	colorMoved = default
+	tool = vscode
+[difftool "vscode"]
+	cmd = code --wait --diff $LOCAL $REMOTE
+[merge]
+	# zdiff3 shows the common ancestor in conflicts — easier to resolve.
+	conflictstyle = zdiff3
+	tool = vscode
+[mergetool "vscode"]
+	cmd = code --wait $MERGED
+
+# Display niceties
+[branch]
+	# List branches most-recently-committed first.
+	sort = -committerdate
+[column]
+	# Multi-column output (branch/tag/status) when the terminal is wide enough.
+	ui = auto
+[help]
+	# Ask before running an auto-corrected mistyped command.
+	autocorrect = prompt
+
+[alias]
+	co = checkout
+	ci = commit
+	st = status -sb
+	br = branch
+	# Compact, decorated commit graph across all branches.
+	lg = log --graph --oneline --decorate --all
+	# Show the most recent commit with its file stats.
+	last = log -1 HEAD --stat
+	# Redo the last commit keeping its message (e.g. after staging a fix).
+	amend = commit --amend --no-edit
+	# Undo the last commit but keep the changes staged.
+	undo = reset --soft HEAD~1
+	# Unstage a file: `git unstage <path>`.
+	unstage = reset HEAD --
+	# List all configured aliases.
+	aliases = config --get-regexp "^alias\\."
+
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
