@@ -96,23 +96,32 @@ mas "Numbers", id: 409203825
 mas "Pages",   id: 409201541
 
 ###############################################################################
-# VS Code extensions                                                          #
+# VS Code extensions — curated from scratch (best-practice set)               #
 ###############################################################################
 
-vscode "bernardodsanderson.theme-material-neutral"
-vscode "pkief.material-icon-theme"
+# Editor quality of life
+vscode "usernamehw.errorlens"                 # inline diagnostics
+vscode "yoavbls.pretty-ts-errors"             # readable TypeScript errors
+vscode "editorconfig.editorconfig"            # honour .editorconfig
+vscode "eamodio.gitlens"                       # git blame / history
+vscode "streetsidesoftware.code-spell-checker" # spell checking
+vscode "pkief.material-icon-theme"            # file icons
+
+# Format & lint (JS/TS)
 vscode "esbenp.prettier-vscode"
 vscode "dbaeumer.vscode-eslint"
-vscode "stylelint.vscode-stylelint"
-vscode "graphql.vscode-graphql"
-vscode "prisma.prisma"
+
+# DevOps & config
 vscode "ms-azuretools.vscode-docker"
 vscode "redhat.vscode-yaml"
 vscode "mikestead.dotenv"
 vscode "mechatroner.rainbow-csv"
-vscode "richie5um2.vscode-sort-json"
-vscode "formulahendry.auto-rename-tag"
-vscode "vivaxy.vscode-conventional-commits"
-vscode "ms-vsliveshare.vsliveshare"
-vscode "shevaua.phpcs"              # PHP (legacy projects)
-vscode "stillat-llc.vscode-antlers" # Statamic Antlers (legacy projects)
+
+# Stack: web / TS
+vscode "bradlc.vscode-tailwindcss"            # Tailwind CSS IntelliSense
+vscode "prisma.prisma"                        # Prisma ORM
+vscode "graphql.vscode-graphql"               # GraphQL
+
+# Stack: PHP / Laravel
+vscode "laravel.vscode-laravel"               # official Laravel extension
+vscode "bmewburn.vscode-intelephense-client"  # PHP language server
