@@ -12,6 +12,7 @@ brew "mas"           # Mac App Store CLI — keep first so mas apps below can in
 brew "chezmoi"       # this repo's dotfile manager
 brew "git"           # newer than the system Git
 brew "git-lfs"       # Git large-file storage
+brew "git-delta"     # syntax-highlighted git diff pager
 brew "antidote"      # zsh plugin manager — replaces antigen
 brew "direnv"        # per-directory environment variables
 brew "mysql-client"  # MySQL CLI (keg-only)
