@@ -25,7 +25,8 @@ brew "imagemagick"   # image manipulation
 # Terminal & shell                                                            #
 ###############################################################################
 
-cask "ghostty"       # GPU-accelerated terminal — replaces iTerm2
+cask "ghostty"                   # GPU-accelerated terminal — replaces iTerm2
+cask "font-meslo-lg-nerd-font"   # Nerd Font for terminal glyphs (Starship/Ghostty)
 
 ###############################################################################
 # Development                                                                 #

@@ -1,0 +1,18 @@
+# Ghostty terminal configuration (managed by chezmoi).
+# Docs: https://ghostty.org/docs/config
+# List bundled themes: `ghostty +list-themes` · list all keys: `ghostty +show-config --default`
+
+# Font — must match an installed family (Brewfile installs font-meslo-lg-nerd-font).
+# Check the exact name with: fc-list | grep -i meslo
+font-family = "MesloLGS Nerd Font"
+font-size = 14
+
+theme = "catppuccin-mocha"
+
+background-opacity = 0.96
+window-padding-x = 10
+window-padding-y = 10
+
+macos-option-as-alt = true
+copy-on-select = clipboard
+mouse-hide-while-typing = true

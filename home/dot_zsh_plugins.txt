@@ -1,0 +1,7 @@
+# antidote plugin bundle — loaded by ~/.zshrc.
+# Order matters: zsh-syntax-highlighting must stay last.
+
+agkozak/zsh-z                      # jump to frequently-used dirs (maintained `z`)
+zsh-users/zsh-completions          # extra completions (added to $fpath)
+zsh-users/zsh-autosuggestions      # fish-like history suggestions
+zsh-users/zsh-syntax-highlighting  # command syntax highlighting — keep last
