@@ -16,5 +16,8 @@ Consequences:
 - Because a fresh Mac has no 1Password session yet, **Bootstrap is two-phase**: phase 1
   installs everything including 1Password and pauses; the user signs in; phase 2 applies the
   secret-bearing templates.
-- `dot_gitconfig.tmpl` carries the signing configuration; SSH config points at the 1Password
-  agent socket.
+- `dot_gitconfig.tmpl` carries the signing configuration.
+- `~/.ssh/config` is **not** managed by chezmoi: it holds real internal host entries that
+  must not be committed to a public repo, and it already routes `Host *` through the
+  1Password agent socket. It stays machine-local; the agent must be enabled in 1Password
+  (Settings → Developer → "Use the SSH agent").

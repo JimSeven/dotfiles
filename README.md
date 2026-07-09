@@ -74,8 +74,7 @@ brew bundle cleanup --file="$(chezmoi source-path)/Brewfile"   # reports only; r
 .
 ├── home/                     # chezmoi source (applied to $HOME via .chezmoiroot)
 │   ├── dot_*                 # dotfiles (dot_zshrc → ~/.zshrc, …)
-│   ├── dot_config/           # ~/.config (starship, ghostty)
-│   ├── private_dot_ssh/      # ~/.ssh (1Password agent)
+│   ├── dot_config/           # ~/.config (starship, ghostty, zsh modules)
 │   ├── Brewfile              # package manifest
 │   └── run_onchange_*        # provisioning: brew bundle, macOS defaults, Dock
 ├── scripts/bootstrap.sh      # fresh-machine bootstrap
