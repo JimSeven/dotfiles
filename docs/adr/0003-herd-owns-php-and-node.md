@@ -12,7 +12,6 @@ Consequences:
 
 - Node/npm come from Herd's NVM; PHP from Herd. The Brewfile installs the `herd`
   cask; the shell integration lives in `home/dot_config/zsh/50-herd.zsh`.
-- Global npm tools are installed under Herd's node (see `home/npm-globals.txt`).
 - Trade-off: version setup is tied to Herd rather than a portable, declarative
   manager. Acceptable for a single-Mac, Laravel-centric setup; revisit if the
   machine ever needs non-Herd PHP/Node.
