@@ -16,9 +16,8 @@
   },
   "enabledPlugins": {
 {{- if .work }}
-    "{{ .company.plugin }}@{{ .company.marketplace }}": true,
+    "{{ .company.plugin }}@{{ .company.marketplace }}": true
 {{- end }}
-    "context-mode@context-mode": true
   },
   "extraKnownMarketplaces": {
 {{- if .work }}
@@ -27,13 +26,7 @@
         "source": "git",
         "url": {{ .company.url | quote }}
       }
-    },
-{{- end }}
-    "context-mode": {
-      "source": {
-        "source": "github",
-        "repo": "mksglu/context-mode"
-      }
     }
+{{- end }}
   }
 }

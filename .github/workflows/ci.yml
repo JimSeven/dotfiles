@@ -61,12 +61,11 @@ jobs:
           echo "$work" | jq -e '.extraKnownMarketplaces["company-marketplace"]' >/dev/null
           echo "$work" | jq -e '.enabledPlugins["company-plugin@company-marketplace"]' >/dev/null
 
-          # …and are absent when work=false.
+          # …and are absent when work=false (personal machine has no marketplaces).
           if echo "$personal" | jq -e '.extraKnownMarketplaces | has("company-marketplace")' >/dev/null; then
             echo "company marketplace leaked into the work=false render" >&2
             exit 1
           fi
-
-          # The public context-mode marketplace is present unconditionally.
-          echo "$personal" | jq -e '.extraKnownMarketplaces["context-mode"]' >/dev/null
+          echo "$personal" | jq -e '.extraKnownMarketplaces == {}' >/dev/null
+          echo "$personal" | jq -e '.enabledPlugins == {}' >/dev/null
           echo "Claude settings render valid JSON in both states; company marketplace gated on work."
