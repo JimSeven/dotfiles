@@ -41,6 +41,9 @@ Brewfile
 !.claude
 # bridge → canonical Identity (ADR-0007):
 !.claude/CLAUDE.md
+# gated settings template + the statusline it references (ADR-0006):
+!.claude/settings.json
+!.claude/statusline-command.sh
 
 # --- Codex (~/.codex) --------------------------------------------------------
 # Denies all Runtime state, notably:

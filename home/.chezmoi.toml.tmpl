@@ -1,4 +1,17 @@
 {{/* chezmoi config template — rendered to ~/.config/chezmoi/chezmoi.toml on `chezmoi init` */}}
+{{- $work := promptBoolOnce . "work" "Is this a work machine" false -}}
 [data]
     name = "Steffen Rüther"
     email = "steffen@21st.digital"
+    # Work machines wire the private company marketplace into Claude (ADR-0006).
+    work = {{ $work }}
+{{- if $work }}
+
+    # Private company marketplace for Claude Code. Entered once at init and kept
+    # only in this local, non-public chezmoi config — never committed — so the
+    # public repo never exposes the internal repo name (ADR-0006).
+    [data.company]
+        marketplace = {{ promptStringOnce . "company.marketplace" "Company marketplace name" | quote }}
+        plugin = {{ promptStringOnce . "company.plugin" "Company plugin name" | quote }}
+        url = {{ promptStringOnce . "company.url" "Company marketplace git URL" | quote }}
+{{- end }}

@@ -20,6 +20,7 @@ jobs:
             scripts/bootstrap.sh \
             home/run_onchange_after_20-macos-defaults.sh \
             home/run_onchange_after_30-dock.sh \
+            home/dot_claude/statusline-command.sh \
             .githooks/pre-commit
 
       - name: Scan the whole tree for secrets (gitleaks)
@@ -33,5 +34,39 @@ jobs:
 
       - name: Render chezmoi templates (dry-run, no changes)
         run: |
-          chezmoi init --source="$PWD"
+          # promptBoolOnce needs the value supplied non-interactively (matched by
+          # prompt text); a plain personal machine has work=false.
+          chezmoi init --source="$PWD" --promptBool "Is this a work machine=false"
           chezmoi apply --dry-run --force --source="$PWD"
+
+      - name: Render Claude settings in both machine-data states
+        run: |
+          set -euo pipefail
+          tmpl=home/dot_claude/settings.json.tmpl
+
+          # work=false — a personal machine: no company marketplace.
+          printf '[data]\nwork = false\n' > "$RUNNER_TEMP/personal.toml"
+          personal=$(chezmoi execute-template --config "$RUNNER_TEMP/personal.toml" < "$tmpl")
+
+          # work=true — dummy company data (the real internal repo name never
+          # lives in this public repo, ADR-0006).
+          printf '[data]\nwork = true\n[data.company]\nmarketplace = "company-marketplace"\nplugin = "company-plugin"\nurl = "git@github.com:example/company-marketplace.git"\n' > "$RUNNER_TEMP/work.toml"
+          work=$(chezmoi execute-template --config "$RUNNER_TEMP/work.toml" < "$tmpl")
+
+          # Both states must be valid JSON.
+          echo "$personal" | jq . >/dev/null
+          echo "$work"     | jq . >/dev/null
+
+          # The company marketplace + its plugin render iff work=true.
+          echo "$work" | jq -e '.extraKnownMarketplaces["company-marketplace"]' >/dev/null
+          echo "$work" | jq -e '.enabledPlugins["company-plugin@company-marketplace"]' >/dev/null
+
+          # …and are absent when work=false.
+          if echo "$personal" | jq -e '.extraKnownMarketplaces | has("company-marketplace")' >/dev/null; then
+            echo "company marketplace leaked into the work=false render" >&2
+            exit 1
+          fi
+
+          # The public context-mode marketplace is present unconditionally.
+          echo "$personal" | jq -e '.extraKnownMarketplaces["context-mode"]' >/dev/null
+          echo "Claude settings render valid JSON in both states; company marketplace gated on work."
