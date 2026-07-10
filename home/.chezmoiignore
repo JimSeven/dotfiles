@@ -35,6 +35,12 @@ Brewfile
 #   context-mode/ policy-limits.json      plugin runtime / telemetry
 #   .last-cleanup *.lock                  runtime markers / locks
 .claude/**
+# Re-include Managed config (added as each file is brought under chezmoi).
+# `.claude/**` also matches the bare dir, so un-ignore the dir itself first —
+# otherwise chezmoi never descends and the file negation below is dead.
+!.claude
+# bridge → canonical Identity (ADR-0007):
+!.claude/CLAUDE.md
 
 # --- Codex (~/.codex) --------------------------------------------------------
 # Denies all Runtime state, notably:
