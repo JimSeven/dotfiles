@@ -1,0 +1,37 @@
+# Codex managed config (ADR-0006): durable user-authored settings only — plugin
+# enablement, feature flags, desktop prefs. Runtime/machine state the Codex app owns
+# and regenerates (project trust, marketplaces, MCP wiring incl. its token, NUX
+# counters, notify hook) is deliberately excluded. A chezmoi apply enforces these
+# values; the app re-adds its own runtime keys on next launch.
+
+[plugins."github@openai-curated"]
+enabled = true
+
+[plugins."sites@openai-bundled"]
+enabled = true
+
+[plugins."browser@openai-bundled"]
+enabled = true
+
+[plugins."documents@openai-primary-runtime"]
+enabled = true
+
+[plugins."pdf@openai-primary-runtime"]
+enabled = true
+
+[plugins."spreadsheets@openai-primary-runtime"]
+enabled = true
+
+[plugins."presentations@openai-primary-runtime"]
+enabled = true
+
+[plugins."template-creator@openai-primary-runtime"]
+enabled = true
+
+[features]
+js_repl = false
+
+[desktop]
+conversationDetailMode = "STEPS_COMMANDS"
+ambient-suggestions-enabled = true
+followUpQueueMode = "queue"
