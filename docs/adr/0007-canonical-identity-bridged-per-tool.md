@@ -13,7 +13,7 @@ single real file makes drift structurally impossible.
 
 Consequences:
 
-- The Identity is kept **lean** (~20 lines, no PII, no secrets): it loads into every session
+- The Identity is kept **lean** (~20 lines, no PII beyond public role, no secrets): it loads into every session
   of every tool, and over-instruction uniformly degrades adherence to all rules.
 - Global Claude instructions stay thin — a `@import` line plus a few universal rules — with
   `~/.claude/rules/` as an escape hatch only when a topic genuinely grows (cf. ADR-0004).

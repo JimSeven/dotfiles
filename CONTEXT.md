@@ -59,7 +59,7 @@ _Avoid_: AI, LLM, assistant.
 **Identity**:
 The single canonical file (`~/.config/agents/identity.md`) describing who the user is and
 how they want to be worked with. Tool-neutral, loaded into every session, kept lean
-(~20 lines, no PII, no secrets). The source of truth every Agent tool bridges to.
+(~20 lines, no PII beyond public role, no secrets). The source of truth every Agent tool bridges to.
 _Avoid_: Persona, profile, about-me, system prompt.
 
 **Bridge**:
