@@ -15,10 +15,10 @@ Brewfile
 # safety floor: default-deny the WHOLE dotfolder, so an accidental            #
 # `chezmoi add ~/.claude` (or ~/.codex) can never sweep in credentials,       #
 # transcripts, history, caches, sqlite stores/logs or plugin payloads.        #
-# Later commits re-include the specific Managed config paths (settings.json,  #
-# CLAUDE.md, rules/, agents/, commands/, self-authored skills/, statusline    #
-# for Claude; config.toml + rules/ for Codex) with `!` negations, added       #
-# alongside each managed file as it is brought under chezmoi.                 #
+# Later commits re-include only the specific Managed config paths (settings.  #
+# json, CLAUDE.md, statusline for Claude; config.toml + rules/ for Codex) with #
+# `!` negations. Skills, MCP wiring, agents/ and commands/ are deliberately    #
+# out of scope (ADR-0006) — never re-included, established per machine.        #
 ###############################################################################
 
 # --- Claude Code (~/.claude) -------------------------------------------------
@@ -39,7 +39,7 @@ Brewfile
 # `.claude/**` also matches the bare dir, so un-ignore the dir itself first —
 # otherwise chezmoi never descends and the file negation below is dead.
 !.claude
-# bridge → canonical Identity (ADR-0007):
+# bridge → canonical Defaults (ADR-0007):
 !.claude/CLAUDE.md
 # gated settings template + the statusline it references (ADR-0006):
 !.claude/settings.json
@@ -71,7 +71,7 @@ Brewfile
 # tool-specific command rules — managed config (ADR-0006):
 !.codex/rules
 !.codex/rules/default.rules
-# bridge → canonical Identity (symlink, ADR-0007):
+# bridge → canonical Defaults (symlink, ADR-0007):
 !.codex/AGENTS.md
 
 # --- opencode (~/.config/opencode) -------------------------------------------
@@ -83,5 +83,5 @@ Brewfile
 # Default-deny the whole dir so an accidental `chezmoi add` cannot sweep them in.
 .config/opencode/**
 !.config/opencode
-# config pointed at the Identity via `instructions` (ADR-0007):
+# config pointed at the Defaults via `instructions` (ADR-0007):
 !.config/opencode/opencode.json
