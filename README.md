@@ -34,6 +34,10 @@ This installs chezmoi and runs `chezmoi init --apply JimSeven/dotfiles`, which
 installs all packages from the [Brewfile](./home/Brewfile), links every dotfile,
 and applies the macOS defaults and Dock layout.
 
+> **App Store apps:** the Brewfile installs a few apps via `mas` (iWork, WireGuard).
+> Apple no longer permits CLI sign-in, so open the App Store app and sign in with
+> your Apple ID **before** phase 2 — otherwise those `mas` entries are skipped.
+
 > **After first apply:** replace the `signingkey` placeholder in
 > [`home/dot_gitconfig.tmpl`](./home/dot_gitconfig.tmpl) with your public SSH
 > signing key from 1Password, then `chezmoi apply`.

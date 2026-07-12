@@ -66,6 +66,14 @@ cask "chatgpt"       # ChatGPT desktop app
 cask "codex"         # OpenAI Codex
 
 ###############################################################################
+# Voice & dictation                                                           #
+###############################################################################
+
+cask "wispr-flow"    # voice-to-text dictation with AI auto-editing
+cask "fluidvoice"    # offline voice-to-text
+cask "handy"         # speech-to-text
+
+###############################################################################
 # Design                                                                      #
 ###############################################################################
 
@@ -84,6 +92,7 @@ cask "obsidian"      # Markdown knowledge base (its CLI PATH is set in ~/.zprofi
 cask "google-drive"
 cask "clockify"
 cask "mimestream"    # native Gmail client — replaces Spark
+cask "home-assistant" # smart-home companion app
 
 ###############################################################################
 # Communication                                                               #
@@ -121,9 +130,10 @@ cask "itsycal"       # small menu-bar calendar
 # Mac App Store                                                               #
 ###############################################################################
 
-mas "Keynote", id: 409183694
-mas "Numbers", id: 409203825
-mas "Pages",   id: 409201541
+mas "Keynote",   id: 409183694
+mas "Numbers",   id: 409203825
+mas "Pages",     id: 409201541
+mas "WireGuard", id: 1451685025  # VPN client — App Store only, no cask
 
 ###############################################################################
 # VS Code extensions — curated from scratch (best-practice set)               #
