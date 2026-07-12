@@ -33,6 +33,13 @@ A chezmoi `run_` hook that performs imperative setup that isn't a file (installi
 Manifest via `brew bundle`, applying macOS defaults, configuring the Dock).
 _Avoid_: Hook, post-install script.
 
+**Verification**:
+The `run_after` Provisioning script (`run_after_90-verify.sh`) that asserts, at the end of
+every Apply, the invariants Apply cannot otherwise guarantee — the three Bridges resolving to
+the Defaults, and Herd's integration path. Exits non-zero (loud) on failure; runs on-machine
+only, never in CI (ADR-0008).
+_Avoid_: Test, healthcheck, doctor.
+
 **Secret**:
 A value that must never appear in the repo in plaintext (SSH keys, signing keys, tokens).
 Resolved at Apply time from 1Password via the `op` CLI inside a chezmoi template.
