@@ -20,6 +20,7 @@ jobs:
             scripts/bootstrap.sh \
             home/run_onchange_after_20-macos-defaults.sh \
             home/run_onchange_after_30-dock.sh \
+            home/run_after_90-verify.sh \
             home/dot_claude/statusline-command.sh \
             .githooks/pre-commit
 
