@@ -63,8 +63,9 @@ how they want to be worked with. Tool-neutral, loaded into every session, kept l
 _Avoid_: Persona, profile, about-me, system prompt.
 
 **Bridge**:
-The `@import` line (Claude) or symlink (Codex, opencode) that points an Agent tool's native
-instruction file at the Identity, so there is exactly one real file and no drift.
+The mechanism that points an Agent tool's native instruction file at the Identity — an
+`@import` line (Claude), a symlink from the native `AGENTS.md` (Codex), or an `instructions`
+entry in the config (opencode) — so there is exactly one real file and no drift.
 _Avoid_: Link, include, reference.
 
 **Managed config**:

@@ -3,8 +3,9 @@
 Personal instructions — who the user is and how they want to be worked with — live once in
 a tool-neutral canonical file, `~/.config/agents/identity.md` (the Identity). Each agent
 tool **bridges** to it instead of holding a copy: Claude via an `@~/.config/agents/identity.md`
-import in `~/.claude/CLAUDE.md`, Codex and opencode via a symlink from their native
-`AGENTS.md`. Tool-specific behaviour stays in each tool's own config (`~/.claude/rules/`,
+import in `~/.claude/CLAUDE.md`, Codex via a symlink from its native `~/.codex/AGENTS.md`,
+opencode via an `instructions` entry in `~/.config/opencode/opencode.json`. Tool-specific
+behaviour stays in each tool's own config (`~/.claude/rules/`, `~/.codex/rules/`,
 `~/.codex/config.toml`).
 
 Chosen over per-tool instruction files because Claude Code does **not** read `AGENTS.md`

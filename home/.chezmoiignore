@@ -62,3 +62,26 @@ Brewfile
 #   installation_id version.json          telemetry / runtime markers
 #   .codex-global-state.json .personality_migration
 .codex/**
+# Re-include Managed config (added as each file is brought under chezmoi).
+# `.codex/**` also matches the bare dir, so un-ignore the dir itself first —
+# otherwise chezmoi never descends and the file negations below are dead.
+!.codex
+# curated config.toml — durable user settings only, no token/secret (ADR-0006):
+!.codex/config.toml
+# tool-specific command rules — managed config (ADR-0006):
+!.codex/rules
+!.codex/rules/default.rules
+# bridge → canonical Identity (symlink, ADR-0007):
+!.codex/AGENTS.md
+
+# --- opencode (~/.config/opencode) -------------------------------------------
+# Runtime state here is the installed-plugin payload reproduced declaratively by
+# the `plugin` array in opencode.json (ADR-0006), never vendored:
+#   node_modules/                         installed plugin payloads
+#   bun.lock package-lock.json package.json  lockfiles / manifest
+#   .gitignore                            tool-generated
+# Default-deny the whole dir so an accidental `chezmoi add` cannot sweep them in.
+.config/opencode/**
+!.config/opencode
+# config pointed at the Identity via `instructions` (ADR-0007):
+!.config/opencode/opencode.json
