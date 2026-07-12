@@ -56,22 +56,24 @@ A CLI/IDE coding agent whose config lives in a home-directory dotfolder (Claude 
 in scope here; team-shared config lives in a marketplace or project repo, never here.
 _Avoid_: AI, LLM, assistant.
 
-**Identity**:
-The single canonical file (`~/.config/agents/identity.md`) describing who the user is and
-how they want to be worked with. Tool-neutral, loaded into every session, kept lean
-(~20 lines, no PII beyond public role, no secrets). The source of truth every Agent tool bridges to.
-_Avoid_: Persona, profile, about-me, system prompt.
+**Defaults**:
+The single canonical file (`~/.config/agents/defaults.md`) with a minimal public-safe
+profile plus tool- and domain-neutral rules for how the user wants to be worked with.
+Loaded into every session, kept lean (~15 lines, no PII beyond public role, no secrets),
+overridable per project. The source of truth every Agent tool bridges to.
+_Avoid_: Identity, persona, profile, system prompt.
 
 **Bridge**:
-The mechanism that points an Agent tool's native instruction file at the Identity — an
+The mechanism that points an Agent tool's native instruction file at the Defaults — an
 `@import` line (Claude), a symlink from the native `AGENTS.md` (Codex), or an `instructions`
 entry in the config (opencode) — so there is exactly one real file and no drift.
 _Avoid_: Link, include, reference.
 
 **Managed config**:
-The user-authored, non-secret files worth version-controlling: `settings.json`, `CLAUDE.md`,
-`rules/`, `agents/`, `skills/`, `commands/`, statusline, the Identity. Everything else under
-an Agent tool's dotfolder is Runtime state.
+The small, durable set of user-authored, non-secret files worth version-controlling:
+`settings.json`, `CLAUDE.md`, statusline (Claude); `config.toml` + `rules/` (Codex);
+`opencode.json` (opencode); the Defaults. Skills, MCP wiring, `agents/` and `commands/`
+are deliberately out of scope (ADR-0006). Everything else is Runtime state.
 _Avoid_: Dotfiles, agent files.
 
 **Runtime state**:
