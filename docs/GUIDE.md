@@ -90,6 +90,11 @@ curl -fsSL https://raw.githubusercontent.com/JimSeven/dotfiles/main/scripts/boot
 
 This installs chezmoi and runs `chezmoi init --apply JimSeven/dotfiles`, which:
 
+- **Enables Touch ID for `sudo`** first
+  ([`run_once_before_05-touch-id-sudo`](../home/run_once_before_05-touch-id-sudo.sh)) —
+  writes `/etc/pam.d/sudo_local`, **prompting once for your password**; every
+  later `sudo` this run (and after) can authenticate by touch
+  ([ADR-0009](./adr/0009-minimal-deterministic-whole-machine-core.md)).
 - **Installs the Manifest** — `brew bundle` over the [Brewfile](../home/Brewfile)
   (formulae, casks, `mas` apps, VS Code extensions), via the
   [`run_onchange_before_10-install-packages`](../home/run_onchange_before_10-install-packages.sh.tmpl)
@@ -97,10 +102,12 @@ This installs chezmoi and runs `chezmoi init --apply JimSeven/dotfiles`, which:
 - **Links every dotfile** into `$HOME` (`dot_zshrc` → `~/.zshrc`, …).
 - **Applies macOS defaults**
   ([`run_onchange_after_20-macos-defaults`](../home/run_onchange_after_20-macos-defaults.sh)) —
-  Dock, keyboard, Finder, trackpad. **This prompts once for your admin
-  password** (`sudo nvram StartupMute`).
+  Dock, keyboard, Finder, trackpad (`sudo nvram StartupMute`).
 - **Rebuilds the Dock**
   ([`run_onchange_after_30-dock`](../home/run_onchange_after_30-dock.sh) via `dockutil`).
+- **Installs global Composer CLIs**
+  ([`run_onchange_after_40-composer-global`](../home/run_onchange_after_40-composer-global.sh)) —
+  Forge CLI, `laravel new`, Statamic, Ray ([ADR-0009](./adr/0009-minimal-deterministic-whole-machine-core.md)).
 - **Runs Verification**
   ([`run_after_90-verify.sh`](../home/run_after_90-verify.sh)) last — see
   [Troubleshooting](#troubleshooting) for reading its output.
@@ -172,6 +179,28 @@ Machine-specific tweaks that should *not* be version-controlled go in
 `~/.zshrc.local` (the **Machine-local override**), which chezmoi does not manage.
 It also absorbs tool auto-injections (e.g. Herd writing into your shell config).
 
+### Shell secrets & global CLI tools
+
+**Secrets are never exported into the shell.** A globally exported API token leaks
+into every child process; it is a hazard, not a convenience. Resolve secrets
+**on demand** instead ([ADR-0009](./adr/0009-minimal-deterministic-whole-machine-core.md),
+extending [ADR-0002](./adr/0002-secrets-via-1password.md)):
+
+```sh
+op run --env-file=.env -- <cmd>   # inject 1Password refs for one command
+# or, per project, an .envrc that direnv loads (direnv is already wired in)
+```
+
+**Reproducible CLI tools go in the [Brewfile](../home/Brewfile).** Homebrew is the
+deterministic source. Two exceptions are ecosystem-only and not in brew:
+
+- **Global Composer CLIs** are provisioned automatically on every apply
+  ([`run_onchange_after_40-composer-global`](../home/run_onchange_after_40-composer-global.sh)) —
+  add a package to that script's list and re-apply.
+- **Global npm CLIs** are **not** automated: they live under Herd's NVM and break
+  on a Node switch ([ADR-0003](./adr/0003-herd-owns-php-and-node.md)), so they are a
+  manual step — see the [checklist](#manual-steps-checklist).
+
 ### The secret gate
 
 The repo is public, so [gitleaks](https://github.com/gitleaks/gitleaks) guards it
@@ -199,6 +228,7 @@ follow the ADR for the *why*, [`CONTEXT.md`](../CONTEXT.md) for the exact term.
 | **Agent config** | Managed vs Runtime split; gitleaks gate | [ADR-0006](./adr/0006-agent-config-managed-vs-runtime.md) |
 | **Agent Defaults + Bridges** | One canonical Defaults file, bridged per tool | [ADR-0007](./adr/0007-canonical-defaults-bridged-per-tool.md) |
 | **Verification** | Post-apply `run_after` seam, on-machine only | [ADR-0008](./adr/0008-post-apply-verification-on-machine.md) |
+| **Minimal core** | What the repo versions vs. leaves manual; whole-machine scope | [ADR-0009](./adr/0009-minimal-deterministic-whole-machine-core.md) |
 
 Repository layout is in [`README.md`](../README.md#repository-layout).
 
@@ -228,6 +258,21 @@ loose skill collections (interactive installers — re-install per machine), MCP
 servers (their wiring lives in mutable/runtime files; auth is always runtime), and
 empty `agents/` / `commands/` dirs. Credentials are Runtime state — re-authenticate
 each agent per machine.
+
+### Inventory & provenance
+
+Skills and MCP wiring aren't versioned — but *knowing what you have and where it
+comes from* is the point ([ADR-0009](./adr/0009-minimal-deterministic-whole-machine-core.md)).
+This map is the source of truth for re-establishing the agent setup; it lists
+**origins**, not every individual skill (individual skills churn, origins don't):
+
+| Origin | Re-establish | Automatic? |
+| --- | --- | --- |
+| Self-authored skills | clone your skills repo into `~/.claude/skills` | ❌ own repo (tracked separately) |
+| Third-party skill sets (e.g. Matt Pocock, Obsidian) | each set's own installer (`npx …`) | ❌ manual |
+| Plugin marketplace (`leadership-toolkit`) | gated in `settings.json` | ✅ on apply (work machines) |
+| MCP connectors (Gmail, GCal, Drive, Slack, Notion, Sentry, Atlassian, …) | sign into claude.ai | ✅ follows the account |
+| Local MCP servers (`attio`, `clockify`) | re-add by hand in `~/.claude.json` | ❌ manual |
 
 ---
 
@@ -283,8 +328,8 @@ Everything that is **not** automated, in one place. Order matters where noted.
       (`mas`: Keynote, Numbers, Pages, WireGuard; no CLI sign-in exists).
 - [ ] **Phase 1** bootstrap, then in **1Password**: sign in **and** enable
       **Settings → Developer → Use the SSH agent**.
-- [ ] Provide your **admin password** when Phase 2's macOS-defaults step prompts
-      (`sudo nvram`).
+- [ ] Provide your **password** at Phase 2's first `sudo` prompt (the Touch ID
+      setup step); after that, `sudo` this run can authenticate by touch.
 - [ ] **Replace the `signingkey` placeholder** in
       [`home/dot_gitconfig.tmpl`](../home/dot_gitconfig.tmpl) with your public SSH
       signing key from 1Password, then `chezmoi apply`.
@@ -292,6 +337,11 @@ Everything that is **not** automated, in one place. Order matters where noted.
       `git config core.hooksPath .githooks`.
 - [ ] **Re-authenticate each AI agent** (Claude Code, Codex, opencode) —
       credentials are Runtime state, never committed.
-- [ ] **Re-install loose skill collections / MCP servers** by hand — deliberately
-      out of scope ([ADR-0006](./adr/0006-agent-config-managed-vs-runtime.md)).
+- [ ] **Re-establish agent skills & MCP** per the
+      [inventory & provenance map](#inventory--provenance): clone the self-authored
+      skills repo, run any third-party set installers, re-add the local MCP servers
+      (`attio`, `clockify`). Connectors and the plugin marketplace come back on
+      their own.
+- [ ] **Re-install global npm CLIs** by hand (fragile under Herd's NVM, not
+      automated): `@playwright/cli`, `attio-cli`. (Composer CLIs are automated.)
 - [ ] **Logout/restart** so the remaining macOS defaults take effect.
