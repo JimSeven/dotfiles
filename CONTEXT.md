@@ -1,5 +1,9 @@
 # macOS Setup
 
+> Glossary — the ubiquitous language for this repo. For how to use the setup see
+> [`docs/GUIDE.md`](./docs/GUIDE.md), for the decisions behind each term see
+> [`docs/adr/`](./docs/adr/), and for the landing page see [`README.md`](./README.md).
+
 A personal, reproducible macOS provisioning system: one command turns a fresh Mac
 into a fully configured machine. The repository is the single source of truth for
 dotfiles, installed software, macOS system preferences, and secrets wiring.
