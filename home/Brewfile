@@ -37,7 +37,7 @@ brew "shellcheck"    # shell-script linter (matches CI lint step)
 brew "gitleaks"      # secret scanner — pre-commit hook + CI gate (see ADR-0006)
 brew "uv"            # fast Python package & version manager (Astral) — no global python pin
 brew "gogcli"        # Google Workspace CLI
-brew "anomalyco/tap/opencode"  # AI coding agent CLI
+#brew "anomalyco/tap/opencode"  # AI coding agent CLI
 
 ###############################################################################
 # Terminal & shell                                                            #
