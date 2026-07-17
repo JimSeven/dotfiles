@@ -8,7 +8,7 @@
 # Command-line tools                                                          #
 ###############################################################################
 
-tap "anomalyco/tap"  # third-party tap providing opencode
+#tap "anomalyco/tap"  # third-party tap providing opencode
 
 brew "mas"           # Mac App Store CLI — keep first so mas apps below can install
 brew "chezmoi"       # this repo's dotfile manager
