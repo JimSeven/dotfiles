@@ -209,6 +209,19 @@ emitted `dockutil --add` lines into `run_onchange_after_30-dock.sh`), then
 snapshot ([ADR-0009](./adr/0009-minimal-deterministic-whole-machine-core.md)); to
 widen coverage, add a `domain|key` pair to the list in the helper.
 
+For the settings already managed in the provisioning script, the interactive
+companion does the copy for you:
+
+```sh
+bash scripts/sync-defaults.sh            # reconcile machine ↔ repo, prompt per drift
+bash scripts/sync-defaults.sh --dry-run  # just list what differs
+```
+
+It compares each managed value against the machine's current value, explains any
+setting that drifted in plain language, and — on your confirmation — writes the
+current value back into `run_onchange_after_20-macos-defaults.sh`. It edits the
+repo source only; run `chezmoi apply` afterwards to apply.
+
 ### Shell secrets & global CLI tools
 
 **Secrets are never exported into the shell.** A globally exported API token leaks
