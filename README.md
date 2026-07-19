@@ -60,6 +60,15 @@ Add a package by editing [`home/Brewfile`](./home/Brewfile); the next
 See [`docs/GUIDE.md`](./docs/GUIDE.md#daily-use) for adding/removing packages,
 editing shell modules, and `chezmoi update`.
 
+Changed a macOS setting you want to keep? Two helpers fold it back into the repo:
+
+```sh
+scripts/sync-defaults.sh      # reconcile managed settings ↔ this Mac, prompt per drift
+scripts/capture-defaults.sh   # print the current value of a setting as a defaults line
+```
+
+See [`docs/GUIDE.md`](./docs/GUIDE.md#capturing-macos-settings) for the workflow.
+
 ## Repository layout
 
 ```
@@ -69,7 +78,10 @@ editing shell modules, and `chezmoi update`.
 │   ├── dot_config/           # ~/.config (starship, ghostty, zsh modules)
 │   ├── Brewfile              # package manifest
 │   └── run_onchange_*        # provisioning: brew bundle, macOS defaults, Dock
-├── scripts/bootstrap.sh      # fresh-machine bootstrap
+├── scripts/
+│   ├── bootstrap.sh          # fresh-machine bootstrap
+│   ├── capture-defaults.sh   # print current macOS settings as defaults lines
+│   └── sync-defaults.sh      # interactively reconcile macOS settings ↔ repo
 ├── .githooks/pre-commit      # gitleaks secret gate (see below)
 ├── docs/adr/                 # architectural decisions
 ├── CONTEXT.md                # domain glossary
