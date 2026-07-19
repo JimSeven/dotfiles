@@ -1,0 +1,6 @@
+{{/* Maps signer identity -> public key for LOCAL SSH signature verification
+     (git log --show-signature, git verify-commit). Signing itself and GitHub's
+     "Verified" badge do not need this file — it only lets this machine check
+     signatures locally. The key must match user.signingkey in ~/.gitconfig.
+     namespaces="git" scopes the key to git-created signatures. */ -}}
+{{ .email }} namespaces="git" ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIEwNiFhG8ll2NQIRKDEaTkm3s9pxxQ6HTR9wiuJKmL/
