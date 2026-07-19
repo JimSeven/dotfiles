@@ -60,14 +60,19 @@ Add a package by editing [`home/Brewfile`](./home/Brewfile); the next
 See [`docs/GUIDE.md`](./docs/GUIDE.md#daily-use) for adding/removing packages,
 editing shell modules, and `chezmoi update`.
 
-Changed a macOS setting you want to keep? Two helpers fold it back into the repo:
+Changed a macOS setting you want to keep? Two helpers fold it back into the repo
+(both edit the repo source only — run `chezmoi apply` afterwards):
 
 ```sh
-scripts/sync-defaults.sh      # reconcile managed settings ↔ this Mac, prompt per drift
-scripts/capture-defaults.sh   # print the current value of a setting as a defaults line
+scripts/sync-defaults.sh              # reconcile managed settings ↔ this Mac, adopt per drift
+scripts/sync-defaults.sh --dry-run    # just list what differs, change nothing
+scripts/capture-defaults.sh           # print current values of the curated keys as defaults lines
+scripts/capture-defaults.sh --watch   # discover which key a setting maps to (change it, press Enter)
 ```
 
-See [`docs/GUIDE.md`](./docs/GUIDE.md#capturing-macos-settings) for the workflow.
+Use `--watch` when you don't know a setting's `defaults` key (e.g. most of
+Accessibility): it diffs before/after and names the key that moved. See
+[`docs/GUIDE.md`](./docs/GUIDE.md#capturing-macos-settings) for the full workflow.
 
 ## Repository layout
 
