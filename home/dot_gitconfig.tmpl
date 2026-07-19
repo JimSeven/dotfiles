@@ -23,6 +23,9 @@
 [gpg "ssh"]
 	# 1Password's helper performs the actual signing.
 	program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
+	# Local verification of SSH signatures (git log --show-signature). Signing and
+	# GitHub's Verified badge work without this; it only enables local checks.
+	allowedSignersFile = {{ .chezmoi.homeDir }}/.config/git/allowed_signers
 [commit]
 	gpgsign = true
 	# Show the full diff in the commit message editor for better messages.
