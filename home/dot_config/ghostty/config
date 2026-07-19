@@ -1,18 +1,48 @@
 # Ghostty terminal configuration (managed by chezmoi).
 # Docs: https://ghostty.org/docs/config
-# List bundled themes: `ghostty +list-themes` · list all keys: `ghostty +show-config --default`
+# List bundled themes: `ghostty +list-themes` · list all keys + defaults: `ghostty +show-config --default`
+# Validate after changes: `ghostty +show-config` (errors also surface in-app on Reload).
+# NOTE: Ghostty has no trailing/inline comments — keep every comment on its own line.
 
-# Font — must match an installed family (Brewfile installs font-meslo-lg-nerd-font).
+# ── Font ──────────────────────────────────────────────────────────────────────
+# Must match an installed family (Brewfile installs font-meslo-lg-nerd-font).
 # Check the exact name with: fc-list | grep -i meslo
 font-family = "MesloLGS Nerd Font"
 font-size = 14
+# Optional (taste): slightly bolder glyphs on Retina.
+# font-thicken = true
 
-theme = "Catppuccin Mocha"
+# ── Theme ─────────────────────────────────────────────────────────────────────
+# Follows the macOS system appearance automatically (no restart needed).
+# Both names must match `ghostty +list-themes` exactly.
+theme = "light:Catppuccin Latte,dark:Catppuccin Mocha"
 
+# ── Window & appearance ───────────────────────────────────────────────────────
 background-opacity = 0.96
+# Blurs whatever is behind the transparent window.
+background-blur = true
 window-padding-x = 10
 window-padding-y = 10
+# Restore window layout across quit/relaunch.
+window-save-state = always
+# Optional (taste): native tab bar in the titlebar.
+# macos-titlebar-style = tabs
 
+# ── macOS ─────────────────────────────────────────────────────────────────────
+# Left Alt sends ESC+ so shell word-motions work.
 macos-option-as-alt = true
+
+# ── Shell integration ─────────────────────────────────────────────────────────
+# Auto-detected for zsh; keep terminfo through sudo and let the shell set tab titles.
+shell-integration-features = cursor,sudo,title
+
+# ── Mouse & clipboard ─────────────────────────────────────────────────────────
 copy-on-select = clipboard
 mouse-hide-while-typing = true
+# clipboard-read stays "ask" (default) — safer than a blanket allow.
+
+# ── Keybinds ──────────────────────────────────────────────────────────────────
+# Ghostty's defaults are good; add personal binds here, e.g.:
+# keybind = cmd+d=new_split:right
+# keybind = cmd+shift+d=new_split:down
+# keybind = global:cmd+grave_accent=toggle_quick_terminal
