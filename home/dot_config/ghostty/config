@@ -7,7 +7,7 @@
 font-family = "MesloLGS Nerd Font"
 font-size = 14
 
-theme = "catppuccin-mocha"
+theme = "Catppuccin Mocha"
 
 background-opacity = 0.96
 window-padding-x = 10
