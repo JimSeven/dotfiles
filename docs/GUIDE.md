@@ -203,6 +203,15 @@ bash scripts/capture-defaults.sh              # all captured settings
 bash scripts/capture-defaults.sh | grep -i mouse   # just the mouse keys
 ```
 
+For a setting whose `defaults` domain/key you *don't* know — anything not in the
+curated list, e.g. most of **System Settings › Accessibility** — use discovery
+mode. It snapshots the common UI domains, waits while you change one setting,
+then prints exactly which key moved (and a ready `defaults write` line for it):
+
+```sh
+bash scripts/capture-defaults.sh --watch      # then toggle the setting, press Enter
+```
+
 Copy the line(s) into `home/run_onchange_after_20-macos-defaults.sh` (or the
 emitted `dockutil --add` lines into `run_onchange_after_30-dock.sh`), then
 `chezmoi apply`. This stays deliberately hand-curated rather than a full machine
