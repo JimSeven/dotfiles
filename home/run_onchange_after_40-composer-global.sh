@@ -21,7 +21,13 @@ herd_bin="$HOME/Library/Application Support/Herd/bin"
 [ -x "$herd_bin/composer" ] && PATH="$herd_bin:$PATH"
 
 if ! command -v composer >/dev/null 2>&1; then
-  echo "composer not found — skipping global CLIs (install Herd first, then re-apply)." >&2
+  if [ -d "/Applications/Herd.app" ]; then
+    echo "composer not found — Herd is installed but hasn't been launched yet." >&2
+    echo "Open Herd once (it sets up bundled PHP + composer), then re-apply." >&2
+  else
+    echo "composer not found — install and launch Herd (see docs/GUIDE.md), then re-apply." >&2
+  fi
+  echo "Skipping global Composer CLIs for now." >&2
   exit 0
 fi
 

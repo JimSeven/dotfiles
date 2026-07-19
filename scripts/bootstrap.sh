@@ -3,8 +3,9 @@ set -euo pipefail
 
 # Two-phase bootstrap for a fresh Mac (see docs/adr/0002).
 #
-#   Phase 1 (default): install prerequisites + 1Password, then pause so you can
-#                      sign in and enable the 1Password SSH agent.
+#   Phase 1 (default): install prerequisites + 1Password + Herd, then pause so
+#                      you can sign into 1Password (enable the SSH agent) and
+#                      launch Herd once (so PHP + composer exist for phase 2).
 #   Phase 2 (--continue): install chezmoi and apply everything.
 #
 # Usage on a clean machine:
@@ -43,6 +44,12 @@ phase1() {
   ensure_homebrew
   log "Installing 1Password"
   brew install --cask 1password 1password-cli
+  # Herd is installed here (not just via the Brewfile in phase 2) because it must
+  # be launched once before phase 2 runs, so its bundled PHP + composer exist for
+  # the global-Composer provisioning step (ADR-0003). It is also in the Brewfile,
+  # so phase 2's `brew bundle` is a harmless no-op for it.
+  log "Installing Herd"
+  brew install --cask herd
   cat <<'MSG'
 
 ──────────────────────────────────────────────────────────────────────
@@ -51,7 +58,9 @@ Phase 1 complete.
 Next:
   1. Open 1Password and sign in.
   2. Settings → Developer → enable "Use the SSH agent".
-  3. Run phase 2 to install everything else and apply your dotfiles:
+  3. Open Herd once and let it finish setup (installs bundled PHP + composer,
+     which phase 2 uses for the global Composer CLIs).
+  4. Run phase 2 to install everything else and apply your dotfiles:
 
      curl -fsSL https://raw.githubusercontent.com/JimSeven/dotfiles/main/scripts/bootstrap.sh | bash -s -- --continue
 ──────────────────────────────────────────────────────────────────────
