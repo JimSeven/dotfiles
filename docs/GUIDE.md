@@ -193,8 +193,18 @@ macOS system preferences are applied by
 **best-effort**: a TCC-protected domain (Contacts, Calendar) or a not-yet-installed
 app is skipped with a warning, never aborting the Apply.
 
+Two helpers fold a setting you changed in **System Settings** back into the repo.
+They only ever edit the repo source — run `chezmoi apply` afterwards to apply.
+
+| Command | What it does |
+| --- | --- |
+| `scripts/sync-defaults.sh` | Reconcile the *managed* settings against this Mac; adopt each drift on confirmation. |
+| `scripts/sync-defaults.sh --dry-run` | List which managed settings differ from the repo; change nothing. |
+| `scripts/capture-defaults.sh` | Print the current value of every *curated* key as a `defaults write` line. |
+| `scripts/capture-defaults.sh --watch` | Discover the key for **any** setting (even unmanaged ones) by diffing before/after. |
+
 To fold a setting you changed in **System Settings** into the repo, use the
-discovery helper — it reads the *current* value for a curated vocabulary of keys
+capture helper — it reads the *current* value for a curated vocabulary of keys
 (mouse/trackpad speed, gestures, Dock, Finder, …) and prints ready-to-review
 `defaults write` lines. It never writes anything itself:
 
