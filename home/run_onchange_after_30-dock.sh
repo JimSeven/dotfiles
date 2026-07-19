@@ -9,40 +9,52 @@ if ! command -v dockutil >/dev/null 2>&1; then
   exit 0
 fi
 
+# add_app <path> [extra dockutil args...] — add to the Dock only if the app is
+# actually installed, so a not-yet-installed cask (or one absent from the
+# Manifest) skips gracefully instead of aborting the whole Dock rebuild.
+add_app() {
+  if [ -e "$1" ]; then
+    dockutil --no-restart --add "$@"
+  else
+    printf '  skip (not installed): %s\n' "$1" >&2
+  fi
+}
+spacer() { dockutil --no-restart --add '' --type small-spacer --section apps; }
+
 dockutil --no-restart --remove all
 
 # Music
-dockutil --no-restart --add "/System/Applications/Music.app"
-dockutil --no-restart --add "/Applications/Spotify.app"
-dockutil --no-restart --add '' --type small-spacer --section apps
+add_app "/System/Applications/Music.app"
+add_app "/Applications/Spotify.app"   # not in the Brewfile — skipped if absent
+spacer
 
 # Browsers
-dockutil --no-restart --add "/Applications/Safari.app"
-dockutil --no-restart --add "/Applications/Google Chrome.app"
-dockutil --no-restart --add "/Applications/Firefox Developer Edition.app"
-dockutil --no-restart --add '' --type small-spacer --section apps
+add_app "/Applications/Safari.app"
+add_app "/Applications/Google Chrome.app"
+add_app "/Applications/Firefox Developer Edition.app"
+spacer
 
 # Communication
-dockutil --no-restart --add "/Applications/Mimestream.app"
-dockutil --no-restart --add "/Applications/Slack.app"
-dockutil --no-restart --add "/System/Applications/Messages.app"
-dockutil --no-restart --add '' --type small-spacer --section apps
+add_app "/Applications/Mimestream.app"
+add_app "/Applications/Slack.app"
+add_app "/System/Applications/Messages.app"
+spacer
 
 # Productivity
-dockutil --no-restart --add "/Applications/Notion.app"
-dockutil --no-restart --add "/System/Applications/Calendar.app"
-dockutil --no-restart --add '' --type small-spacer --section apps
+add_app "/Applications/Notion.app"
+add_app "/System/Applications/Calendar.app"
+spacer
 
 # Dev
-dockutil --no-restart --add "/Applications/Visual Studio Code.app"
-dockutil --no-restart --add "/Applications/Ghostty.app"
-dockutil --no-restart --add '' --type small-spacer --section apps
+add_app "/Applications/Visual Studio Code.app"
+add_app "/Applications/Ghostty.app"
+spacer
 
 # System
-dockutil --no-restart --add "/System/Applications/System Settings.app"
+add_app "/System/Applications/System Settings.app"
 
 # Folders
-dockutil --no-restart --add "/Applications" --view auto --display folder --sort name
-dockutil --no-restart --add "$HOME/Downloads" --view auto --display folder --sort dateadded
+add_app "/Applications" --view auto --display folder --sort name
+add_app "$HOME/Downloads" --view auto --display folder --sort dateadded
 
 killall Dock

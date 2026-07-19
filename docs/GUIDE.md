@@ -179,6 +179,31 @@ Machine-specific tweaks that should *not* be version-controlled go in
 `~/.zshrc.local` (the **Machine-local override**), which chezmoi does not manage.
 It also absorbs tool auto-injections (e.g. Herd writing into your shell config).
 
+### Capturing macOS settings
+
+macOS system preferences are applied by
+[`run_onchange_after_20-macos-defaults`](../home/run_onchange_after_20-macos-defaults.sh)
+(a curated list of `defaults write` calls) and the Dock by
+[`run_onchange_after_30-dock`](../home/run_onchange_after_30-dock.sh). Both are
+**best-effort**: a TCC-protected domain (Contacts, Calendar) or a not-yet-installed
+app is skipped with a warning, never aborting the Apply.
+
+To fold a setting you changed in **System Settings** into the repo, use the
+discovery helper — it reads the *current* value for a curated vocabulary of keys
+(mouse/trackpad speed, gestures, Dock, Finder, …) and prints ready-to-review
+`defaults write` lines. It never writes anything itself:
+
+```sh
+bash scripts/capture-defaults.sh              # all captured settings
+bash scripts/capture-defaults.sh | grep -i mouse   # just the mouse keys
+```
+
+Copy the line(s) into `home/run_onchange_after_20-macos-defaults.sh` (or the
+emitted `dockutil --add` lines into `run_onchange_after_30-dock.sh`), then
+`chezmoi apply`. This stays deliberately hand-curated rather than a full machine
+snapshot ([ADR-0009](./adr/0009-minimal-deterministic-whole-machine-core.md)); to
+widen coverage, add a `domain|key` pair to the list in the helper.
+
 ### Shell secrets & global CLI tools
 
 **Secrets are never exported into the shell.** A globally exported API token leaks
