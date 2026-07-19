@@ -71,16 +71,21 @@ curl -fsSL https://raw.githubusercontent.com/JimSeven/dotfiles/main/scripts/boot
 ```
 
 [`scripts/bootstrap.sh`](../scripts/bootstrap.sh) installs the Xcode Command Line
-Tools (if the dialog appears, finish it and re-run), Homebrew, and the 1Password
-app + CLI — then stops.
+Tools (if the dialog appears, finish it and re-run), Homebrew, the 1Password
+app + CLI, and Herd — then stops.
 
-Now, in 1Password:
+Now:
 
 1. Open 1Password and **sign in**.
 2. **Settings → Developer → enable "Use the SSH agent".** This is what makes SSH
    auth and commit signing work; `~/.ssh/config` already routes `Host *` through
    the agent socket and is intentionally *not* managed by chezmoi
    ([ADR-0002](./adr/0002-secrets-via-1password.md)).
+3. **Open Herd once** and let it finish its setup. This installs its bundled PHP
+   and `composer`, which phase 2's global-Composer provisioning step needs
+   ([ADR-0003](./adr/0003-herd-owns-php-and-node.md)). Skip this and the Composer
+   CLIs are simply skipped (the Apply still succeeds); open Herd and re-apply to
+   get them.
 
 ### Phase 2 — install everything and apply
 
@@ -353,6 +358,8 @@ Everything that is **not** automated, in one place. Order matters where noted.
       (`mas`: Keynote, Numbers, Pages, WireGuard; no CLI sign-in exists).
 - [ ] **Phase 1** bootstrap, then in **1Password**: sign in **and** enable
       **Settings → Developer → Use the SSH agent**.
+- [ ] **Open Herd once** (installed in Phase 1) so its bundled PHP + `composer`
+      exist before Phase 2 — otherwise the global Composer CLIs are skipped.
 - [ ] Provide your **password** at Phase 2's first `sudo` prompt (the Touch ID
       setup step); after that, `sudo` this run can authenticate by touch.
 - [ ] **Replace the `signingkey` placeholder** in
