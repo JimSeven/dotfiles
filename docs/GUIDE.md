@@ -376,6 +376,8 @@ false-positives on a non-Herd machine.
 | `brew bundle` can't find `brew` | Homebrew not on PATH in a fresh shell | re-run the bootstrap; open a new shell |
 | A Dock app is missing | the app's cask/mas entry didn't install | fix the Manifest install, then re-run — the Dock script skips gracefully if `dockutil` is absent |
 | Herd check fails after a Herd update | integration path moved | open Herd, re-run `chezmoi apply` |
+| `chezmoi apply` stops on `.zshrc has changed since chezmoi last wrote it` | Herd re-injected its PHP/NVM block into `~/.zshrc`; the [`50-herd`](../home/dot_config/zsh/50-herd.zsh) module already provides all of it | `chezmoi apply --force ~/.zshrc` — the injection is redundant, nothing is lost |
+| Ghostty shows *Configuration Errors: theme … not found* | a theme name must match a bundled name exactly (`ghostty +list-themes`, e.g. `Catppuccin Mocha`) | fix the name in [`ghostty/config`](../home/dot_config/ghostty/config), `chezmoi apply`, then Reload Configuration |
 
 When in doubt: `chezmoi diff` to see what an Apply *would* do, then `chezmoi apply`
 again — it is idempotent.
