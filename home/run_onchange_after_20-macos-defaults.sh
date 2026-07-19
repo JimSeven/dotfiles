@@ -140,8 +140,11 @@ dw com.apple.iCal CalendarSidebarShown -bool true
 
 dw com.apple.messages.text SpellChecking -int 2
 
-# Restart affected apps
-for app in "Calendar" "cfprefsd" "Contacts" "Dock" "Finder" "Messages"; do
+# Restart affected apps. Dock is deliberately NOT restarted here: the Dock
+# rebuild script (run_onchange_after_30) runs right after and owns the single
+# Dock restart. Restarting Dock here would race with that script's dockutil
+# writes and silently drop Dock items.
+for app in "Calendar" "cfprefsd" "Contacts" "Finder" "Messages"; do
   killall "${app}" &>/dev/null || true
 done
 

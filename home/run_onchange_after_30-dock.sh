@@ -21,6 +21,12 @@ add_app() {
 }
 spacer() { dockutil --no-restart --add '' --type small-spacer --section apps; }
 
+# Let any in-flight Dock/cfprefsd restart (e.g. from the macOS-defaults script
+# that runs just before this one) settle first. Editing the Dock plist while a
+# relaunching Dock is rewriting it clobbers dockutil's writes — items silently
+# go missing. A brief pause plus a single clean restart at the end avoids the race.
+sleep 3
+
 dockutil --no-restart --remove all
 
 # Music
@@ -57,4 +63,7 @@ add_app "/System/Applications/System Settings.app"
 add_app "/Applications" --view auto --display folder --sort name
 add_app "$HOME/Downloads" --view auto --display folder --sort dateadded
 
+# Flush the preferences cache so Dock reloads the plist we just wrote rather than
+# a stale in-memory copy, then restart it once.
+killall cfprefsd &>/dev/null || true
 killall Dock
