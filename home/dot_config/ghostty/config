@@ -38,8 +38,13 @@ unfocused-split-opacity = 0.7
 scrollback-limit = 50000000
 
 # ── macOS ─────────────────────────────────────────────────────────────────────
-# Left Alt sends ESC+ so shell word-motions work.
-macos-option-as-alt = true
+# Option must stay as Option so a German keyboard can compose { } [ ] @ | \ ~
+# (⌥8 ⌥9 ⌥5 ⌥6 ⌥L ⌥7 …). Do NOT set this to true — that remaps Option to
+# Alt/Meta and breaks those characters. Trade-off: no Alt-based word motions in
+# the shell. Use "right" instead if you want the right Option as Meta while the
+# left still composes — but on a German layout @/} are typed with the right
+# Option too, so "false" is the safe choice.
+macos-option-as-alt = false
 
 # ── Shell integration ─────────────────────────────────────────────────────────
 # Auto-detected for zsh; keep terminfo through sudo and let the shell set tab titles.

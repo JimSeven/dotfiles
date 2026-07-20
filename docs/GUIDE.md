@@ -420,6 +420,7 @@ false-positives on a non-Herd machine.
 | `chezmoi apply` stops on `.zshrc has changed since chezmoi last wrote it` | Herd re-injected its PHP/NVM block into `~/.zshrc`; the [`50-herd`](../home/dot_config/zsh/50-herd.zsh) module already provides all of it | `chezmoi apply --force ~/.zshrc` — the injection is redundant, nothing is lost |
 | Ghostty shows *Configuration Errors: theme … not found* | a theme name must match a bundled name exactly (`ghostty +list-themes`, e.g. `Catppuccin Mocha`) | fix the name in [`ghostty/config`](../home/dot_config/ghostty/config), `chezmoi apply`, then Reload Configuration |
 | A Ghostty setting is silently ignored (no error shown) | Ghostty has no trailing/inline comments — a `# …` after a value on the same line is parsed into the value and the whole key is dropped | move the comment to its own line in [`ghostty/config`](../home/dot_config/ghostty/config); verify with `ghostty +show-config` |
+| `{ } [ ] @ \| ~` can't be typed in Ghostty (German keyboard) | `macos-option-as-alt = true` remaps the Option key to Alt/Meta, so it no longer composes those characters | keep `macos-option-as-alt = false` in [`ghostty/config`](../home/dot_config/ghostty/config) (the default) |
 
 When in doubt: `chezmoi diff` to see what an Apply *would* do, then `chezmoi apply`
 again — it is idempotent.
