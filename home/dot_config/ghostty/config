@@ -1,8 +1,10 @@
 # Ghostty terminal configuration (managed by chezmoi).
 # Docs: https://ghostty.org/docs/config
 # List bundled themes: `ghostty +list-themes` · list all keys + defaults: `ghostty +show-config --default`
+# List default keybinds: `ghostty +list-keybinds --default`
 # Validate after changes: `ghostty +show-config` (errors also surface in-app on Reload).
 # NOTE: Ghostty has no trailing/inline comments — keep every comment on its own line.
+# Workflow + keybind cheat-sheet: docs/GUIDE.md · rationale: docs/adr/0010-ghostty-native-multiplexing.md
 
 # ── Font ──────────────────────────────────────────────────────────────────────
 # Must match an installed family (Brewfile installs font-meslo-lg-nerd-font).
@@ -25,8 +27,15 @@ window-padding-x = 10
 window-padding-y = 10
 # Restore window layout across quit/relaunch.
 window-save-state = always
-# Optional (taste): native tab bar in the titlebar.
-# macos-titlebar-style = tabs
+# Native tab bar in the titlebar (one window per project, tabs within).
+macos-titlebar-style = tabs
+# Dim the split you are NOT focused on so the active pane stands out.
+# Lower = stronger dim (0.6 for more contrast).
+unfocused-split-opacity = 0.7
+
+# ── Scrollback ────────────────────────────────────────────────────────────────
+# 50 MB per pane — comfortably holds long agent/server output.
+scrollback-limit = 50000000
 
 # ── macOS ─────────────────────────────────────────────────────────────────────
 # Left Alt sends ESC+ so shell word-motions work.
@@ -36,13 +45,25 @@ macos-option-as-alt = true
 # Auto-detected for zsh; keep terminfo through sudo and let the shell set tab titles.
 shell-integration-features = cursor,sudo,title
 
+# ── Notifications ─────────────────────────────────────────────────────────────
+# Ping when a command finishes in a pane you are NOT looking at (e.g. a background
+# agent/build), as a real macOS notification, only after it ran for 5s+.
+notify-on-command-finish = unfocused
+notify-on-command-finish-action = notify
+notify-on-command-finish-after = 5s
+
 # ── Mouse & clipboard ─────────────────────────────────────────────────────────
 copy-on-select = clipboard
 mouse-hide-while-typing = true
-# clipboard-read stays "ask" (default) — safer than a blanket allow.
+# clipboard-read stays "ask" and clipboard-paste-protection stays on (defaults) —
+# the paste guard is a safety net against auto-executing pasted commands.
 
 # ── Keybinds ──────────────────────────────────────────────────────────────────
-# Ghostty's defaults are good; add personal binds here, e.g.:
-# keybind = cmd+d=new_split:right
-# keybind = cmd+shift+d=new_split:down
-# keybind = global:cmd+grave_accent=toggle_quick_terminal
+# Splits, tabs, focus, resize and zoom all use Ghostty's built-in defaults
+# (`ghostty +list-keybinds --default`, cheat-sheet in docs/GUIDE.md).
+# Only non-default binds live here:
+# Global drop-down quick terminal (works even when Ghostty is not focused):
+keybind = global:cmd+grave_accent=toggle_quick_terminal
+# Jump the scroll position between command prompts in long output:
+keybind = cmd+up=jump_to_prompt:-1
+keybind = cmd+down=jump_to_prompt:1
