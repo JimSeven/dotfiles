@@ -56,7 +56,8 @@ section() {
 # mouse freely while changing the setting — you don't need to keep it still.
 if [ "${1:-}" = "--watch" ]; then
   watch_domains="NSGlobalDomain com.apple.AppleMultitouchTrackpad \
-com.apple.driver.AppleBluetoothMultitouch.trackpad com.apple.universalaccess \
+com.apple.driver.AppleBluetoothMultitouch.trackpad com.apple.AppleMultitouchMouse \
+com.apple.driver.AppleBluetoothMultitouch.mouse com.apple.universalaccess \
 com.apple.Accessibility com.apple.dock com.apple.finder com.apple.controlcenter"
   snap="$(mktemp -d)"
   for d in $watch_domains; do defaults read "$d" >"$snap/$d.before" 2>/dev/null || true; done
@@ -66,7 +67,7 @@ com.apple.Accessibility com.apple.dock com.apple.finder com.apple.controlcenter"
   # level, event-log timestamps. Never a durable preference, so it is filtered
   # out of the results (both the ready-to-paste keys and the raw-diff context).
   # A setting whose ONLY diff is noise is not stored in `defaults` at all.
-  noise_keys='displaysLastCursorLocation|closeViewZoomFactor|closeViewZoomFactorBeforeTermination|closeViewZoomDisplayID|closeViewZoomDisplayHeight|closeViewZoomDisplayWidth|MouseKeys'
+  noise_keys='displaysLastCursorLocation|closeViewZoomFactor|closeViewZoomFactorBeforeTermination|closeViewZoomDisplayID|closeViewZoomDisplayHeight|closeViewZoomDisplayWidth|MouseKeys|ComputerViewSettings|WindowBounds|WindowState'
   noise_lines="$noise_keys"'|^[<>].*(Date|Reason|State|[XY]) ='
   found=0
   for d in $watch_domains; do
@@ -125,6 +126,16 @@ section "Appearance & sound" \
 section "Accessibility — zoom" \
   "com.apple.universalaccess|closeViewScrollWheelToggle" \
   "com.apple.universalaccess|closeViewScrollWheelModifiersInt"
+
+# Magic Mouse gestures live in TWO mirrored domains; capture both.
+for md in com.apple.AppleMultitouchMouse com.apple.driver.AppleBluetoothMultitouch.mouse; do
+  section "Mouse gestures ($md)" \
+    "$md|MouseButtonMode" \
+    "$md|MouseOneFingerDoubleTapGesture" \
+    "$md|MouseTwoFingerDoubleTapGesture" \
+    "$md|MouseTwoFingerHorizSwipeGesture" \
+    "$md|MouseMomentumScroll"
+done
 
 # Trackpad gestures live in TWO domains (built-in vs Bluetooth); capture both.
 for td in com.apple.AppleMultitouchTrackpad com.apple.driver.AppleBluetoothMultitouch.trackpad; do
