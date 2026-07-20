@@ -72,3 +72,7 @@ keybind = global:cmd+grave_accent=toggle_quick_terminal
 # Jump the scroll position between command prompts in long output:
 keybind = cmd+up=jump_to_prompt:-1
 keybind = cmd+down=jump_to_prompt:1
+# Reload config. The default super+shift+, matches the ',' character, but a
+# German keyboard produces ';' under Shift, so it never fires — bind the
+# PHYSICAL comma key instead so ⌘⇧, works regardless of layout.
+keybind = super+shift+physical:comma=reload_config
