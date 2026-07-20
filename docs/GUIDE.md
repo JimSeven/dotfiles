@@ -184,6 +184,46 @@ Machine-specific tweaks that should *not* be version-controlled go in
 `~/.zshrc.local` (the **Machine-local override**), which chezmoi does not manage.
 It also absorbs tool auto-injections (e.g. Herd writing into your shell config).
 
+### Terminal workflow
+
+The terminal lives **inside Ghostty** — native splits and tabs, no tmux
+([ADR-0010](./adr/0010-ghostty-native-multiplexing.md)). The pattern that scales
+when several AI-assisted projects are open at once:
+
+- **One window per project/task.** Everything for a project stays spatially
+  together, so you never hunt across a flat pile of tabs.
+- **Splits inside it for the roles** that project needs — agent (Claude
+  Code / Codex / opencode) · shell · dev server. The inactive split is dimmed, so
+  the focused pane is obvious; `⌘⇧↵` zooms one split full-screen and back.
+- **Quick terminal (`⌘\`) for throwaways** — a global drop-down for a fast
+  `git status` or one-liner without disturbing any project layout. Works even when
+  Ghostty is not the front app.
+- A background agent/build **pings a macOS notification when it finishes** and
+  you've already looked away (only if it ran 5s+ and its pane is unfocused).
+
+#### Keyboard shortcuts
+
+Splits, tabs, focus and resize are Ghostty **defaults** (`ghostty +list-keybinds
+--default` for the full list); only the last two rows are custom to this repo.
+
+| Action | Shortcut |
+| --- | --- |
+| Split right / down | `⌘D` / `⌘⇧D` |
+| Move focus between splits | `⌘[` / `⌘]` · or `⌘⌥←↑↓→` |
+| Resize the split | `⌘⌃←↑↓→` |
+| Zoom a split full-screen (toggle) | `⌘⇧↵` |
+| Equalize all splits | `⌘⌃=` |
+| New tab / new window | `⌘T` / `⌘N` |
+| Jump to tab 1–8 | `⌘1` … `⌘8` |
+| Previous / next tab | `⌘⇧[` / `⌘⇧]` |
+| Close split / tab | `⌘W` |
+| Reload this config | `⌘⇧,` |
+| **Quick terminal (global drop-down)** | `⌘\`` |
+| **Jump to previous / next command** | `⌘↑` / `⌘↓` |
+
+Edit the config with `chezmoi edit ~/.config/ghostty/config`, `chezmoi apply`, then
+**Reload Configuration** (`⌘⇧,`) — or validate first with `ghostty +show-config`.
+
 ### Capturing macOS settings
 
 macOS system preferences are applied by
@@ -291,6 +331,7 @@ follow the ADR for the *why*, [`CONTEXT.md`](../CONTEXT.md) for the exact term.
 | **Agent Defaults + Bridges** | One canonical Defaults file, bridged per tool | [ADR-0007](./adr/0007-canonical-defaults-bridged-per-tool.md) |
 | **Verification** | Post-apply `run_after` seam, on-machine only | [ADR-0008](./adr/0008-post-apply-verification-on-machine.md) |
 | **Minimal core** | What the repo versions vs. leaves manual; whole-machine scope | [ADR-0009](./adr/0009-minimal-deterministic-whole-machine-core.md) |
+| **Terminal workflow** | Ghostty native splits/tabs, one window per project, no tmux | [ADR-0010](./adr/0010-ghostty-native-multiplexing.md) |
 
 Repository layout is in [`README.md`](../README.md#repository-layout).
 
