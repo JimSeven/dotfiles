@@ -103,6 +103,13 @@ dw com.apple.AppleMultitouchTrackpad Clicking -bool true
 dw com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
 dw com.apple.dock showAppExposeGestureEnabled -bool true
 
+# Magic Mouse gestures — macOS mirrors them across both domains, so write both.
+# Secondary click (right-click) and smart zoom (one-finger double-tap).
+for md in com.apple.driver.AppleBluetoothMultitouch.mouse com.apple.AppleMultitouchMouse; do
+  dw "$md" MouseButtonMode -string TwoButton
+  dw "$md" MouseOneFingerDoubleTapGesture -int 1
+done
+
 ###############################################################################
 # Other                                                                       #
 ###############################################################################
