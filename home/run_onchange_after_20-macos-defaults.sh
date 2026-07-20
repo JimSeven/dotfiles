@@ -54,6 +54,11 @@ dw com.apple.dock showAppExposeGestureEnabled -bool true
 dw com.apple.AppleMultitouchTrackpad TrackpadThreeFingerDrag -bool true
 dw com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerDrag -bool true
 
+# Zoom with scroll gesture + modifier key (Accessibility › Zoom).
+# 262144 = the Control (⌃) modifier flag; hold it and scroll to zoom the screen.
+dw com.apple.universalaccess closeViewScrollWheelToggle -bool true
+dw com.apple.universalaccess closeViewScrollWheelModifiersInt -int 262144
+
 ###############################################################################
 # Security & Privacy                                                          #
 ###############################################################################

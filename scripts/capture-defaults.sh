@@ -51,7 +51,9 @@ section() {
 # under System Settings › Accessibility). Snapshots the common UI domains, waits
 # for you to change one setting, then shows exactly which key moved and prints a
 # ready `defaults write` line for it. This is how you find the key for a control
-# whose defaults domain/key you don't already know.
+# whose defaults domain/key you don't already know. Known runtime noise (cursor
+# position, zoom level, event timestamps) is filtered out so you can move the
+# mouse freely while changing the setting — you don't need to keep it still.
 if [ "${1:-}" = "--watch" ]; then
   watch_domains="NSGlobalDomain com.apple.AppleMultitouchTrackpad \
 com.apple.driver.AppleBluetoothMultitouch.trackpad com.apple.universalaccess \
@@ -60,20 +62,40 @@ com.apple.Accessibility com.apple.dock com.apple.finder com.apple.controlcenter"
   for d in $watch_domains; do defaults read "$d" >"$snap/$d.before" 2>/dev/null || true; done
   printf 'Snapshot taken. Change ONE setting in System Settings now, then press Enter… '
   read -r _ </dev/tty || true
+  # Runtime state that macOS rewrites on its own — cursor position, current zoom
+  # level, event-log timestamps. Never a durable preference, so it is filtered
+  # out of the results (both the ready-to-paste keys and the raw-diff context).
+  # A setting whose ONLY diff is noise is not stored in `defaults` at all.
+  noise_keys='displaysLastCursorLocation|closeViewZoomFactor|closeViewZoomFactorBeforeTermination|closeViewZoomDisplayID|closeViewZoomDisplayHeight|closeViewZoomDisplayWidth|MouseKeys'
+  noise_lines="$noise_keys"'|^[<>].*(Date|Reason|State|[XY]) ='
   found=0
   for d in $watch_domains; do
     defaults read "$d" >"$snap/$d.after" 2>/dev/null || true
     diff -q "$snap/$d.before" "$snap/$d.after" >/dev/null 2>&1 && continue
+    # Durable top-level keys that changed, minus the runtime noise.
+    # Drop the noise keys, plus nested dict artefacts that look like top-level
+    # keys after stripping the diff marker: numeric indices (1, 2, …) and the
+    # single-letter X/Y coordinate keys inside displaysLastCursorLocation.
+    keys=$(diff "$snap/$d.before" "$snap/$d.after" | sed -n 's/^> *//p' \
+      | sed -n 's/^\([A-Za-z0-9_.]*\) = .*/\1/p' | sort -u \
+      | grep -Ev "^($noise_keys|[0-9]+|[A-Z])$" || true)
+    if [ -z "$keys" ]; then
+      printf '\n# === %s changed — only runtime noise, ignored ===\n' "$d"
+      continue
+    fi
     found=1
     printf '\n# === %s changed ===\n' "$d"
     # Ready-to-paste line for each changed simple (unquoted, top-level) key.
-    diff "$snap/$d.before" "$snap/$d.after" | sed -n 's/^> *//p' \
-      | sed -n 's/^\([A-Za-z0-9_.]*\) = .*/\1/p' | sort -u \
-      | while read -r key; do [ -n "$key" ] && emit "$d" "$key"; done
-    # Raw diff for full context (nested/quoted keys, removals).
-    diff "$snap/$d.before" "$snap/$d.after" | sed 's/^/#   /'
+    printf '%s\n' "$keys" | while read -r key; do [ -n "$key" ] && emit "$d" "$key"; done
+    # Raw diff for full context (nested/quoted keys, removals), noise stripped.
+    diff "$snap/$d.before" "$snap/$d.after" | grep -Ev "$noise_lines" | sed 's/^/#   /'
   done
-  [ "$found" -eq 0 ] && printf 'No change detected in the watched domains.\n'
+  if [ "$found" -eq 0 ]; then
+    printf '\nNo durable setting changed in the watched domains.\n'
+    printf 'If you did change something, it is likely not stored in defaults at all\n'
+    printf '(e.g. display resolution lives in a per-host WindowServer plist) — such\n'
+    printf 'settings are out of scope for this repo (ADR-0009).\n'
+  fi
   rm -rf "$snap"
   exit 0
 fi
@@ -99,6 +121,10 @@ section "Appearance & sound" \
   "NSGlobalDomain|AppleInterfaceStyle" \
   "NSGlobalDomain|AppleShowScrollBars" \
   "NSGlobalDomain|com.apple.sound.beep.feedback"
+
+section "Accessibility — zoom" \
+  "com.apple.universalaccess|closeViewScrollWheelToggle" \
+  "com.apple.universalaccess|closeViewScrollWheelModifiersInt"
 
 # Trackpad gestures live in TWO domains (built-in vs Bluetooth); capture both.
 for td in com.apple.AppleMultitouchTrackpad com.apple.driver.AppleBluetoothMultitouch.trackpad; do
