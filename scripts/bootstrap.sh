@@ -73,6 +73,8 @@ phase2() {
   brew install chezmoi
   log "chezmoi init --apply ${REPO}"
   chezmoi init --apply "$REPO"
+  log "Switching source remote to SSH for pushes"
+  chezmoi git -- remote set-url origin "git@github.com:${REPO}.git"
   log "Done. Open Ghostty or restart your shell."
 }
 
