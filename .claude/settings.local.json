@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ghostty +version)",
+      "Bash(ghostty +show-config --config-file=/dev/stdin)"
+    ]
+  }
+}
