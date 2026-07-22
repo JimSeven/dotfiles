@@ -145,8 +145,7 @@ vscode "editorconfig.editorconfig"            # honour .editorconfig
 vscode "eamodio.gitlens"                       # git blame / history
 vscode "streetsidesoftware.code-spell-checker" # spell checking
 vscode "pkief.material-icon-theme"            # file icons
-vscode "formulahendry.auto-rename-tag"        # rename paired HTML/Blade/JSX tags
-vscode "christian-kohler.npm-intellisense"    # autocomplete npm imports
+vscode "formulahendry.auto-rename-tag"        # rename paired HTML/Blade/JSX tags (built-in linkedEditing deckt JSX/Blade nicht ab)
 vscode "vivaxy.vscode-conventional-commits"   # guided conventional commit messages
 
 # Format & lint (JS/TS/CSS)
@@ -165,19 +164,20 @@ vscode "mechatroner.rainbow-csv"
 vscode "bradlc.vscode-tailwindcss"            # Tailwind CSS IntelliSense
 vscode "prisma.prisma"                        # Prisma ORM
 vscode "graphql.vscode-graphql"               # GraphQL
+vscode "graphql.vscode-graphql-syntax"        # Grammatik-Dependency von vscode-graphql (explizit gepinnt)
 
 # Stack: PHP / Laravel
 vscode "laravel.vscode-laravel"               # official Laravel extension
 vscode "bmewburn.vscode-intelephense-client"  # PHP language server
 vscode "amiralizadeh9480.laravel-extra-intellisense" # routes/views/config autocomplete
-vscode "onecentlin.laravel-blade"             # Blade syntax highlighting
-vscode "shufo.vscode-blade-formatter"         # Blade formatter
+vscode "shufo.vscode-blade-formatter"         # Blade formatter (Highlighting kommt von laravel.vscode-laravel)
 vscode "open-southeners.laravel-pint"         # Pint formatting
 
 # Stack: Python
 vscode "ms-python.python"                     # Python language support
 vscode "ms-python.vscode-pylance"             # Pylance language server
 vscode "ms-python.debugpy"                    # Python debugger
+vscode "ms-python.vscode-python-envs"         # Env-Management, Teil des python extensionPack (explizit gepinnt)
 
 # AI in the editor
 vscode "anthropic.claude-code"                # Claude Code extension
