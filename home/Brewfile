@@ -145,6 +145,7 @@ vscode "yoavbls.pretty-ts-errors"             # readable TypeScript errors
 vscode "editorconfig.editorconfig"            # honour .editorconfig
 vscode "eamodio.gitlens"                       # git blame / history
 vscode "streetsidesoftware.code-spell-checker" # spell checking
+vscode "streetsidesoftware.code-spell-checker-german" # German dictionary for cSpell
 vscode "pkief.material-icon-theme"            # file icons
 vscode "formulahendry.auto-rename-tag"        # rename paired HTML/Blade/JSX tags (built-in linkedEditing deckt JSX/Blade nicht ab)
 vscode "vivaxy.vscode-conventional-commits"   # guided conventional commit messages
