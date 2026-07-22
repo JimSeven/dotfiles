@@ -6,3 +6,9 @@
 #
 # Version-control the ones you want reproduced on every machine here.
 # Machine-only shortcuts can instead live in ~/.zshrc.local.
+
+alias fsb='cd ~/Sites/fsb'
+alias mbcon='cd ~/Sites/mbcon'
+alias er='cd ~/Sites/er'
+alias s5='cd ~/Sites/s5'
+alias 21st='cd ~/Sites/21st'
