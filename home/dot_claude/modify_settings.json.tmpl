@@ -46,6 +46,7 @@ BASELINE
 )
 
 current=$(cat)
-printf '%s' "${current:-{\}}" \
+[ -n "$current" ] || current='{}'
+printf '%s' "$current" \
   | jq --argjson base "$baseline" '. * $base' 2>/dev/null \
   || printf '%s' "$baseline" | jq '.'
