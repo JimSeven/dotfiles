@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# modify_ target: ~/.zshrc (ADR-0004).
+#
+# Always emits the thin baseline, discarding whatever the current target carries.
+# Laravel Herd re-injects HERD_PHP_*_INI_SCAN_DIR lines into ~/.zshrc on launch,
+# but those are redundant — 50-herd.zsh already exports them portably — so ADR-0004
+# treats them as transient. A modify_ script strips them on every apply *silently*
+# (deterministic, idempotent, no "changed since chezmoi last wrote it" prompt),
+# which is the whole point over a plain file that would prompt each time Herd
+# re-injects. Genuine machine-local tweaks belong in ~/.zshrc.local (unmanaged).
+
+# Consume stdin (the current target) so chezmoi's pipe closes cleanly; ignore it.
+cat >/dev/null
+
+cat <<'BASELINE'
+# ~/.zshrc — thin entry point (managed by chezmoi; see ADR-0004).
+# Sources numbered modules from ~/.config/zsh in prefix order, then a
+# machine-local escape hatch that chezmoi does not manage.
+
+_zsh_modules="${XDG_CONFIG_HOME:-$HOME/.config}/zsh"
+for _mod in "$_zsh_modules"/*.zsh(N); do
+  [[ -r "$_mod" ]] && source "$_mod"
+done
+unset _mod _zsh_modules
+
+# Machine-local overrides / tool auto-injections (not version-controlled).
+[[ -f "$HOME/.zshrc.local" ]] && source "$HOME/.zshrc.local"
+BASELINE

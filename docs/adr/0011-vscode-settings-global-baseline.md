@@ -42,3 +42,7 @@ Consequences:
   a repo wants it, rather than forcing a house style everywhere.
 - The file stays commented by section so a fresh machine reads the rationale inline; this ADR
   holds only the choices whose "why" does not fit a one-line comment.
+- It is handled seed-once-then-ignore (ADR-0012): chezmoi seeds the baseline on a fresh
+  machine, then a template-guarded `.chezmoiignore` hands the file off to VS Code's runtime
+  writes so it never prompts. Roll baseline changes to existing machines deliberately with
+  `chezmoi apply --force '~/Library/Application Support/Code/User/settings.json'`.

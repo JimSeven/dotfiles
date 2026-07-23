@@ -100,9 +100,4 @@
     "**/.forgejo/workflows/*.yml",
     "**/.forgejo/workflows/*.yaml",
   ],
-
-  // --- Spell checker (cSpell) ---
-  // Check both English and German so German comments/docs are not flagged.
-  // Needs the German dictionary extension (streetsidesoftware.code-spell-checker-german).
-  "cSpell.language": "en,de",
 }

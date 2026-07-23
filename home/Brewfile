@@ -34,8 +34,10 @@ brew "gh"            # GitHub CLI (PRs, issues, releases)
 brew "shellcheck"    # shell-script linter (matches CI lint step)
 brew "gitleaks"      # secret scanner — pre-commit hook + CI gate (see ADR-0006)
 brew "uv"            # fast Python package & version manager (Astral) — no global python pin
+brew "node"          # Node.js + npm; Corepack (yarn/pnpm shims) enabled via run_onchange_after_50
 brew "gogcli"        # Google Workspace CLI
 brew "opencode"      # AI coding agent CLI (homebrew-core)
+brew "azure-cli"     # Azure CLI
 
 ###############################################################################
 # Terminal & shell                                                            #
@@ -144,8 +146,6 @@ vscode "usernamehw.errorlens"                 # inline diagnostics
 vscode "yoavbls.pretty-ts-errors"             # readable TypeScript errors
 vscode "editorconfig.editorconfig"            # honour .editorconfig
 vscode "eamodio.gitlens"                       # git blame / history
-vscode "streetsidesoftware.code-spell-checker" # spell checking
-vscode "streetsidesoftware.code-spell-checker-german" # German dictionary for cSpell
 vscode "pkief.material-icon-theme"            # file icons
 vscode "formulahendry.auto-rename-tag"        # rename paired HTML/Blade/JSX tags (built-in linkedEditing deckt JSX/Blade nicht ab)
 vscode "vivaxy.vscode-conventional-commits"   # guided conventional commit messages

@@ -37,3 +37,9 @@ The scope is intentionally limited to instructions + durable settings. The follo
 
 This is a conscious trade-off: the setup churns and is Claude-first, so a minimal core that
 never rots beats a comprehensive one that needs constant tending.
+
+The agents rewrite their managed config at runtime (Codex re-adds `[projects."…"]` trust,
+Claude Code re-orders keys and adds its own toggles). Rather than let that drift prompt on
+every apply, the two files are `modify_` scripts that enforce the managed baseline while
+passing the runtime keys back through into the target — kept out of the repo, never
+committed. See ADR-0012.

@@ -9,3 +9,5 @@
 # Editors
 *.swp
 *~
+
+**/.claude/settings.local.json

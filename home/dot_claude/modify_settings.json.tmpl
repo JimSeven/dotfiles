@@ -1,3 +1,15 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# modify_ target: ~/.claude/settings.json (ADR-0006).
+#
+# Deep-merges the current target (stdin) UNDER the managed baseline: baseline
+# keys always win, but runtime-only keys Claude Code writes itself are preserved,
+# and jq normalises formatting + key order so the file no longer drifts against
+# the source on every apply. The runtime keys are never committed to the repo.
+# If the target is missing or unparseable, the baseline alone is emitted.
+
+baseline=$(cat <<'BASELINE'
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
   "model": "opus[1m]",
@@ -30,3 +42,10 @@
 {{- end }}
   }
 }
+BASELINE
+)
+
+current=$(cat)
+printf '%s' "${current:-{\}}" \
+  | jq --argjson base "$baseline" '. * $base' 2>/dev/null \
+  || printf '%s' "$baseline" | jq '.'

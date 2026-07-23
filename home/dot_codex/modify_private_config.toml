@@ -1,8 +1,19 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# modify_ target: ~/.codex/config.toml (ADR-0006).
+#
+# Emits the versioned baseline (durable user settings), then re-appends the
+# runtime [projects."…"] trust entries the Codex app writes after the [desktop]
+# block. Those stay in the target so project trust survives, but are never
+# committed to the repo and no longer drift against the source on every apply.
+
+cat <<'BASELINE'
 # Codex managed config (ADR-0006): durable user-authored settings only — plugin
 # enablement, feature flags, desktop prefs. Runtime/machine state the Codex app owns
 # and regenerates (project trust, marketplaces, MCP wiring incl. its token, NUX
-# counters, notify hook) is deliberately excluded. A chezmoi apply enforces these
-# values; the app re-adds its own runtime keys on next launch.
+# counters, notify hook) is passed through verbatim below but never committed. A
+# chezmoi apply enforces the values above; the app's runtime keys are preserved.
 
 [plugins."github@openai-curated"]
 enabled = true
@@ -35,3 +46,7 @@ js_repl = false
 conversationDetailMode = "STEPS_COMMANDS"
 ambient-suggestions-enabled = true
 followUpQueueMode = "queue"
+BASELINE
+
+# Pass through the runtime [projects."…"] trust entries the app appends.
+awk 'emit { print } /^followUpQueueMode = "queue"$/ { emit = 1 }'
