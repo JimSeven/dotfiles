@@ -11,8 +11,10 @@ makes load order explicit through the numeric prefix.
 Tools such as Laravel Herd auto-inject lines into `~/.zshrc`. Because chezmoi owns
 that file, such injections are transient: chezmoi restores the thin version on the
 next apply, and the real integration lives in a managed module (`50-herd.zsh`).
-Genuinely machine-specific config that should not be version-controlled goes in
-`~/.zshrc.local`, which chezmoi does not manage.
+That restore is done by a `modify_dot_zshrc` script that strips the injections
+*silently* on every apply (ADR-0012), rather than a plain file that prompted each
+time Herd re-injected. Genuinely machine-specific config that should not be
+version-controlled goes in `~/.zshrc.local`, which chezmoi does not manage.
 
 Consequences:
 

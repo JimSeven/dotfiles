@@ -116,3 +116,14 @@
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
+
+# GitHub credential helper, written by `gh auth setup-git` (ADR-0002). Kept here
+# verbatim so the value is deterministic and no longer drifts against the target
+# on every apply. The empty `helper =` line resets any inherited helper before
+# gh's own takes over.
+[credential "https://github.com"]
+	helper =
+	helper = !/opt/homebrew/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper =
+	helper = !/opt/homebrew/bin/gh auth git-credential

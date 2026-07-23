@@ -10,8 +10,12 @@ showed Herd already fills that role, so we reversed the decision.
 
 Consequences:
 
-- Node/npm come from Herd's NVM; PHP from Herd. The Brewfile installs the `herd`
-  cask; the shell integration lives in `home/dot_config/zsh/50-herd.zsh`.
+- PHP comes from Herd. Node has two layers: a **brew `node`** as the machine-wide
+  default (declared in the Brewfile — it was already pulled in transitively by
+  `opencode`, now explicit so global tooling has a stable npm), and **Herd's NVM**
+  for per-project Node versions. `corepack enable` (yarn/pnpm shims) runs against
+  the brew Node via `run_onchange_after_50-corepack.sh`. The Brewfile installs the
+  `herd` cask; the shell integration lives in `home/dot_config/zsh/50-herd.zsh`.
 - Trade-off: version setup is tied to Herd rather than a portable, declarative
   manager. Acceptable for a single-Mac, Laravel-centric setup; revisit if the
   machine ever needs non-Herd PHP/Node.

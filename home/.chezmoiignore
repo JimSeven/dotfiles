@@ -85,3 +85,17 @@ Brewfile
 !.config/opencode
 # config pointed at the Defaults via `instructions` (ADR-0007):
 !.config/opencode/opencode.json
+
+###############################################################################
+# VS Code user settings — seed once, then hands off (ADR-0011).               #
+#                                                                             #
+# settings.json is real JSONC (comments + trailing commas) that VS Code and   #
+# its extensions actively rewrite at runtime, and no CLI JSON tool can merge   #
+# it without destroying the comments. So chezmoi seeds the curated baseline    #
+# on a fresh machine (file absent → not ignored → applied), then ignores it    #
+# once present so runtime rewrites never prompt. Baseline changes are rolled   #
+# out deliberately with `chezmoi apply --force '~/Library/.../settings.json'`. #
+###############################################################################
+{{ if stat (joinPath .chezmoi.homeDir "Library/Application Support/Code/User/settings.json") }}
+Library/Application Support/Code/User/settings.json
+{{ end -}}

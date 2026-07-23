@@ -1,7 +1,6 @@
 {
   // --- Editor ---
   "editor.formatOnSave": true,
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit",
   },
@@ -10,16 +9,41 @@
   "editor.wordWrap": "on",
   "editor.linkedEditing": true,
   "editor.stickyScroll.enabled": true,
+  "editor.rulers": [80, 120],
   "editor.fontFamily": "MesloLGS Nerd Font, Menlo, Monaco, monospace",
   "editor.fontSize": 13,
   "editor.accessibilitySupport": "off",
   "diffEditor.ignoreTrimWhitespace": false,
 
   // --- Files ---
+  "files.autoSave": "onFocusChange",
   "files.trimTrailingWhitespace": true,
   "files.insertFinalNewline": true,
+  // node_modules is watcher-excluded by default; add the heavy dirs VS Code does not cover
+  "files.watcherExclude": {
+    "**/vendor/**": true,
+    "**/storage/framework/**": true,
+    "**/dist/**": true,
+    "**/build/**": true,
+  },
+  "search.exclude": {
+    "**/vendor": true,
+    "**/dist": true,
+    "**/build": true,
+    "**/*.min.*": true,
+  },
+  "explorer.fileNesting.enabled": true,
+  "explorer.fileNesting.patterns": {
+    "package.json": "package-lock.json, pnpm-lock.yaml, yarn.lock, bun.lockb, .npmrc, tsconfig*.json",
+    "composer.json": "composer.lock",
+    ".env": ".env.*",
+    "*.ts": "${capture}.js, ${capture}.d.ts",
+  },
 
   // --- Per-language formatters ---
+  // No global editor.defaultFormatter on purpose: it would make formatOnSave
+  // attempt Prettier on PHP/Python/YAML (no parser). Bind explicitly per language.
+  "prettier.requireConfig": true,
   "[javascript]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
   "[javascriptreact]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
   "[typescript]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
@@ -28,6 +52,9 @@
   "[jsonc]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
   "[html]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
   "[css]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[blade]": { "editor.defaultFormatter": "shufo.vscode-blade-formatter" },
+  // [php] intentionally unbound globally: Pint is Laravel-specific, so bind it
+  // in the project .vscode/settings.json (per Profiles-Strategie #3).
 
   // --- JS / TS ---
   "javascript.updateImportsOnFileMove.enabled": "always",
@@ -42,6 +69,7 @@
   "git.confirmSync": false,
   "git.enableSmartCommit": true,
   "git.openRepositoryInParentFolders": "always",
+  "git.branchProtection": ["main", "master"],
 
   // --- Workbench ---
   "workbench.iconTheme": "material-icon-theme",
@@ -53,7 +81,6 @@
   "terminal.integrated.fontFamily": "MesloLGS Nerd Font",
 
   // --- Misc ---
-  "docker.showStartPage": false,
   "explorer.confirmDelete": false,
   "explorer.confirmDragAndDrop": false,
   "security.workspace.trust.untrustedFiles": "open",
