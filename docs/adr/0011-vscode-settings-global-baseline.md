@@ -33,6 +33,17 @@ The non-obvious choices, recorded so they are not "cleaned up" later by mistake:
 - **Telemetry off** (`telemetry.telemetryLevel: "off"`, `redhat.telemetry.enabled: false`) is a
   standing privacy default across the machine, not a per-tool afterthought.
 
+- **AI assistants split by role, not stacked.** Claude Code and Codex are agentic/panel-only (no
+  inline completions), so they do not compete for the inline slot; Copilot owns it exclusively for
+  autocomplete. Copilot is **not** in the extension canon: since VS Code 1.130 `GitHub.copilot-chat`
+  ships as a built-in that provides the inline completions itself, so the standalone `github.copilot`
+  extension is obsolete (and un-installable via `brew bundle` — its pack drags in an older
+  `copilot-chat` that cannot downgrade the built-in). It is configured, not installed:
+  `github.copilot.enable` scopes it out of prose (`markdown`, `plaintext`) and the SCM commit box
+  (`scminput`, since commits run through `vscode-conventional-commits`); a GitHub login activates the
+  free tier. Codex keys (`chatgpt.openOnStartup`, `chatgpt.commentCodeLensEnabled`) are pinned to
+  silence startup panel and per-comment CodeLens rather than left to drift on their defaults.
+
 Consequences:
 
 - The extension canon (see Brewfile) and this file are coupled: a per-language formatter binding

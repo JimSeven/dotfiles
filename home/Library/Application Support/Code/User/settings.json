@@ -89,9 +89,25 @@
   "telemetry.telemetryLevel": "off",
   "redhat.telemetry.enabled": false,
 
-  // --- Claude Code ---
+  // --- AI: Claude Code (agentic, panel) ---
   "claudeCode.initialPermissionMode": "plan",
   "claudeCode.preferredLocation": "panel",
+
+  // --- AI: Codex/ChatGPT (agentic, panel) ---
+  "chatgpt.openOnStartup": false,
+  "chatgpt.commentCodeLensEnabled": false,
+
+  // --- AI: Copilot (Built-in seit VS Code 1.130, Inline-Autocomplete) ---
+  // GitHub.copilot-chat ist gebuendelt und liefert die Inline-Completions selbst
+  // (keine separate github.copilot-Extension noetig, nur GitHub-Login = Free-Tier).
+  // Claude Code und Codex liefern keine Inline-Completions -> konfliktfrei.
+  // Aus in Prosa und der SCM-Commit-Box (Commits via vscode-conventional-commits).
+  "github.copilot.enable": {
+    "*": true,
+    "plaintext": false,
+    "markdown": false,
+    "scminput": false,
+  },
   "yaml.disableSchemaDetection": [
     "**/.github/workflows/*.yml",
     "**/.github/workflows/*.yaml",

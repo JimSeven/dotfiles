@@ -182,5 +182,10 @@ vscode "ms-python.debugpy"                    # Python debugger
 vscode "ms-python.vscode-python-envs"         # Env-Management, Teil des python extensionPack (explizit gepinnt)
 
 # AI in the editor
-vscode "anthropic.claude-code"                # Claude Code extension
-vscode "openai.chatgpt"                       # ChatGPT extension
+vscode "anthropic.claude-code"                # Claude Code extension (agentic, nutzt Claude-Abo)
+vscode "openai.chatgpt"                       # ChatGPT/Codex extension (agentic, nutzt ChatGPT-Abo)
+# github.copilot (Inline-Autocomplete) NICHT im Kanon: seit VS Code 1.130 ist
+# GitHub.copilot-chat ein Built-in, das Inline-Completions selbst liefert. Die
+# separate github.copilot-Extension ist obsolet und laesst sich nicht per brew
+# installieren (Pack zieht copilot-chat 0.48.1, Downgrade des Built-in scheitert).
+# Verhalten via github.copilot.* in settings.json steuern; Login = Free-Tier.
