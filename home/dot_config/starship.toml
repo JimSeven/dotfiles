@@ -3,8 +3,13 @@
 
 # Two-line prompt: context on top, input on a clean second line.
 add_newline = true
+
+# Cap external module commands (node -v, php -v, git ...) so a slow call
+# never blows the default 500ms budget and prints an error into the prompt.
+command_timeout = 1000
+
 format = """
-$directory$git_branch$git_status$nodejs$php$cmd_duration
+$directory$git_branch$git_commit$git_state$git_status$nodejs$php$cmd_duration
 $character"""
 
 [character]
@@ -19,6 +24,14 @@ style = "bold cyan"
 [git_branch]
 symbol = " "
 style = "bold purple"
+
+# Detached HEAD: show short commit hash as a warning (only_detached is default).
+[git_commit]
+style = "bold red"
+
+# Signals an in-progress rebase/merge/cherry-pick/bisect with step counter.
+[git_state]
+style = "bold red"
 
 [git_status]
 style = "bold yellow"
