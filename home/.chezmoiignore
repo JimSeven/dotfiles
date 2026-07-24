@@ -93,8 +93,10 @@ Brewfile
 # its extensions actively rewrite at runtime, and no CLI JSON tool can merge   #
 # it without destroying the comments. So chezmoi seeds the curated baseline    #
 # on a fresh machine (file absent → not ignored → applied), then ignores it    #
-# once present so runtime rewrites never prompt. Baseline changes are rolled   #
-# out deliberately with `chezmoi apply --force '~/Library/.../settings.json'`. #
+# once present so runtime rewrites never prompt. Once seeded the file is        #
+# unmanaged, so `--force` cannot re-apply it; roll baseline changes to an       #
+# existing machine by hand-merging the new keys into the live file (preserving  #
+# runtime-written keys), as documented in ADR-0011.                             #
 ###############################################################################
 {{ if stat (joinPath .chezmoi.homeDir "Library/Application Support/Code/User/settings.json") }}
 Library/Application Support/Code/User/settings.json

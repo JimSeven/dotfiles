@@ -55,5 +55,10 @@ Consequences:
   holds only the choices whose "why" does not fit a one-line comment.
 - It is handled seed-once-then-ignore (ADR-0012): chezmoi seeds the baseline on a fresh
   machine, then a template-guarded `.chezmoiignore` hands the file off to VS Code's runtime
-  writes so it never prompts. Roll baseline changes to existing machines deliberately with
-  `chezmoi apply --force '~/Library/Application Support/Code/User/settings.json'`.
+  writes so it never prompts. Consequence: once seeded the file is **unmanaged**, so
+  `chezmoi apply --force '<path>'` does **not** re-apply it (it reports "not managed"). Roll
+  baseline changes to an existing machine by hand-merging the changed keys into the live file,
+  preserving any keys VS Code/extensions have written at runtime (e.g. `claudeCode.useTerminal`,
+  `chat.viewSessions.orientation`) — diff source against the live file first, then apply only the
+  delta. Alternatively delete the live file and re-`apply` to re-seed, but that discards those
+  runtime keys.

@@ -92,6 +92,8 @@
   // --- AI: Claude Code (agentic, panel) ---
   "claudeCode.initialPermissionMode": "plan",
   "claudeCode.preferredLocation": "panel",
+  "claudeCode.useTerminal": true,
+  "chat.viewSessions.orientation": "stacked",
 
   // --- AI: Codex/ChatGPT (agentic, panel) ---
   "chatgpt.openOnStartup": false,
