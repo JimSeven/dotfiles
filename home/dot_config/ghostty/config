@@ -72,7 +72,10 @@ keybind = global:cmd+grave_accent=toggle_quick_terminal
 # Jump the scroll position between command prompts in long output:
 keybind = cmd+up=jump_to_prompt:-1
 keybind = cmd+down=jump_to_prompt:1
-# Reload config. The default super+shift+, matches the ',' character, but a
-# German keyboard produces ';' under Shift, so it never fires — bind the
-# PHYSICAL comma key instead so ⌘⇧, works regardless of layout.
-keybind = super+shift+physical:comma=reload_config
+# Reload config. The default super+shift+, is a Unicode-codepoint trigger that
+# matches the ',' character — but a German keyboard produces ';' under Shift, so it
+# would never fire. `comma` (bare) is the W3C physical keycode and matches the key
+# by POSITION regardless of layout (Config.zig: "regardless of the keyboard
+# layout"). Ghostty 1.3.1 has no `physical:` trigger prefix — the keycode name IS
+# the physical binding. CI validates this file via `ghostty +validate-config`.
+keybind = super+shift+comma=reload_config
