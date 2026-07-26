@@ -6,7 +6,11 @@ set -euo pipefail
 # run_onchange_before_10-install-packages before this `after` script runs, so npm
 # is on PATH here. `npm install -g corepack` bumps the bundled Corepack to latest;
 # `corepack enable` writes the yarn/pnpm shims next to the brew Node binary.
-# chezmoi re-runs this whenever the script below changes.
+#
+# run_once_after_ (not run_onchange_): this has no in-content change source, so
+# run_onchange_ would run it exactly once and never retry a failed run. run_once_
+# re-runs on the next apply if it failed (network) — the right semantics for a
+# one-time setup step that can fail. See docs/adr/0008.
 
 if ! command -v npm >/dev/null 2>&1; then
   echo "npm not found — Node isn't installed yet (brew bundle installs it via the Brewfile)." >&2

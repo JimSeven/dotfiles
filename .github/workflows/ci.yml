@@ -20,7 +20,8 @@ jobs:
             scripts/bootstrap.sh \
             home/run_onchange_after_20-macos-defaults.sh \
             home/run_onchange_after_30-dock.sh \
-            home/run_onchange_after_50-corepack.sh \
+            home/run_once_after_40-composer-global.sh \
+            home/run_once_after_50-corepack.sh \
             home/run_after_90-verify.sh \
             home/modify_dot_zshrc \
             home/dot_codex/modify_private_config.toml \
@@ -83,3 +84,10 @@ jobs:
           echo "$personal" | jq -e '.extraKnownMarketplaces == {}' >/dev/null
           echo "$personal" | jq -e '.enabledPlugins == {}' >/dev/null
           echo "Claude settings render valid JSON in both states; company marketplace gated on work."
+
+      - name: Validate the Ghostty config
+        run: |
+          # ghostty ships a config linter; catch a deprecated/typo'd key in CI
+          # instead of on the machine (ADR-0010). Not preinstalled on the runner.
+          brew install --cask ghostty
+          ghostty +validate-config --config-file=home/dot_config/ghostty/config

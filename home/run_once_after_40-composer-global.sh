@@ -5,8 +5,12 @@ set -euo pipefail
 #
 # The standing set of global Composer tools that get reinstalled on every machine.
 # Stable and idempotent — unlike npm globals, which live under Herd's NVM and break
-# on a Node switch (ADR-0003), so those stay a manual step. chezmoi re-runs this
-# whenever the package list below changes.
+# on a Node switch (ADR-0003), so those stay a manual step.
+#
+# run_once_after_ (not run_onchange_): re-runs when this file's contents change
+# (e.g. the package list below) AND retries on the next apply if it failed —
+# run_onchange_ only guarantees the former, so a network/composer failure on a
+# fresh machine would never be retried. See docs/adr/0008.
 
 packages=(
   laravel/forge-cli   # Laravel Forge CLI

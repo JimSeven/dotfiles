@@ -1,8 +1,11 @@
 # Brewfile — the declarative package manifest (see docs/adr/0001).
 #
 # Installed via `brew bundle` (run automatically by chezmoi on change).
-# `brew bundle cleanup --file=~/.local/share/chezmoi/home/Brewfile` reports packages
-# NOT listed here — removal is always manual, never automatic (grilling decision).
+# Drift check (installed but NOT listed here) — non-destructive, read-only:
+#   comm -13 <(sort home/Brewfile) <(brew bundle dump --file=- | sort)
+# Do NOT run `brew bundle cleanup`: Homebrew/brew#21350 lets it uninstall packages
+# that ARE listed here (dependency cascade), and its dry-run hides the effect.
+# Removal is always manual, never automatic (grilling decision).
 
 ###############################################################################
 # Command-line tools                                                          #
