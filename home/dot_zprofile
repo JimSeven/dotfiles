@@ -3,3 +3,11 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 
 # Obsidian CLI
 export PATH="$PATH:/Applications/Obsidian.app/Contents/MacOS"
+
+# OrbStack shell integration (ADR-0005). OrbStack appends the block below to
+# ~/.zprofile on first run; we version it so a fresh machine is deterministic and
+# `chezmoi apply` reports no drift. OrbStack's own marker lines are kept verbatim
+# so it recognises the block and never appends a duplicate.
+# Added by OrbStack: command-line tools and integration
+# This won't be added again if you remove it.
+source ~/.orbstack/shell/init.zsh 2>/dev/null || :
