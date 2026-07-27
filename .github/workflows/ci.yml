@@ -88,6 +88,9 @@ jobs:
       - name: Validate the Ghostty config
         run: |
           # ghostty ships a config linter; catch a deprecated/typo'd key in CI
-          # instead of on the machine (ADR-0010). Not preinstalled on the runner.
+          # instead of on the machine (ADR-0010). Not preinstalled on the runner,
+          # and the cask does NOT put the CLI on PATH — call the binary inside the
+          # app bundle directly.
           brew install --cask ghostty
-          ghostty +validate-config --config-file=home/dot_config/ghostty/config
+          "/Applications/Ghostty.app/Contents/MacOS/ghostty" \
+            +validate-config --config-file=home/dot_config/ghostty/config
