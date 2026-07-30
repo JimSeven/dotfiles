@@ -15,6 +15,7 @@ set -euo pipefail
 packages=(
   laravel/forge-cli   # Laravel Forge CLI
   laravel/installer   # `laravel new`
+  laravel/lsp         # Laravel Language Server (editor tooling)
   statamic/cli        # Statamic CLI
   spatie/global-ray   # Ray debugging in any PHP file
 )
