@@ -26,5 +26,5 @@ alias cz='chezmoi'
 alias cza='chezmoi apply'
 alias czd='chezmoi diff'
 alias cze='chezmoi edit'
-alias brewup='brew update && brew upgrade && brew cleanup'
+# brewup lives in 45-brew.zsh (function, not alias — it also stamps the upgrade time)
 alias zshconfig='${EDITOR:-micro} ${XDG_CONFIG_HOME:-$HOME/.config}/zsh'
