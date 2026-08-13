@@ -1,8 +1,8 @@
 # Modular zsh config with a machine-local escape hatch
 
 `~/.zshrc` is a thin entry point that sources numbered modules from `~/.config/zsh`
-(`00-path`, `10-env`, `20-tools`, `30-aliases`, `40-functions`, `50-herd`,
-`60-projects`) and finally `~/.zshrc.local`.
+(`00-path`, `10-env`, `20-tools`, `30-aliases`, `40-functions`, `45-brew`,
+`50-herd`, `60-projects`) and finally `~/.zshrc.local`.
 
 The old `~/.zshrc` had grown to ~190 lines of oh-my-zsh boilerplate, dead tool hooks
 (Fig, Kiro) and duplicated exports. Splitting by concern keeps each file small and

@@ -332,6 +332,9 @@ follow the ADR for the *why*, [`CONTEXT.md`](../CONTEXT.md) for the exact term.
 | **Verification** | Post-apply `run_after` seam, on-machine only | [ADR-0008](./adr/0008-post-apply-verification-on-machine.md) |
 | **Minimal core** | What the repo versions vs. leaves manual; whole-machine scope | [ADR-0009](./adr/0009-minimal-deterministic-whole-machine-core.md) |
 | **Terminal workflow** | Ghostty native splits/tabs, one window per project, no tmux | [ADR-0010](./adr/0010-ghostty-native-multiplexing.md) |
+| **VS Code baseline** | Global settings baseline; per-language formatter bindings coupled to the extension canon | [ADR-0011](./adr/0011-vscode-settings-global-baseline.md) |
+| **App-rewritten files** | Seed-once for JSONC we can't safely merge; no apply-time prompts | [ADR-0012](./adr/0012-app-rewritten-managed-files.md) |
+| **Homebrew upgrades** | Manual `brewup`, no auto-upgrade; shell-start staleness nudge | [ADR-0013](./adr/0013-homebrew-manual-upgrade-with-staleness-nudge.md) |
 
 Repository layout is in [`README.md`](../README.md#repository-layout).
 
