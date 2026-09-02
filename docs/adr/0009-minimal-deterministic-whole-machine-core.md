@@ -28,14 +28,18 @@ Consequences — what this admits and what it deliberately excludes:
     `laravel/installer`, `statamic/cli`, `spatie/global-ray`) — stable and
     idempotent via `composer global require`, added as a `run_once`
     Provisioning script keyed on the package list.
-  - **Global PECL extensions** for Herd's PHP (currently `redis` — the phpredis
-    *client*, not the server, which stays per-project in OrbStack per ADR-0005).
-    A machine-wide PHP capability, so the same reasoning as the Composer CLIs.
   - Both use `run_once_` rather than `run_onchange_`: a `run_once_` script re-runs
     when its contents change *and* retries after a failed run, so a network or
     build failure on a fresh machine is not silently swallowed.
 - **Deliberately out of scope** (considered and rejected, so a future reader need
   not re-litigate):
+  - **PECL extensions for PHP** (tried, then dropped). Herd already bundles
+    phpredis in all three of its PHP versions, and Herd ships no `pecl` of its
+    own — so a provisioning script inevitably reaches for Homebrew's `pecl` and
+    builds against the Homebrew PHP that exists only as a `php-cs-fixer`
+    dependency. That build then fails on Homebrew's dangling `Cellar/php/*/pecl`
+    symlink and takes the whole apply down with it. Per ADR-0003 Herd owns PHP,
+    so its bundled extensions are the answer here, not a script.
   - **App preference plists** (`~/Library/Preferences/*.plist`) — binary,
     GUI-mutated, drift-prone. Text configs an app *does* expose (VS Code
     `settings.json`, Ghostty, Starship, Finicky) are managed; the opaque state is
