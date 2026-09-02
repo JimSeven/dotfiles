@@ -130,6 +130,8 @@ cask "finicky"       # per-URL browser routing (config in ~/.finicky.js)
 cask "alt-tab"       # Windows-style window switcher with previews
 cask "stats"         # system monitor in the menu bar
 cask "itsycal"       # small menu-bar calendar
+cask "qlmarkdown"    # Quick Look preview for Markdown files
+cask "syntax-highlight" # Quick Look syntax highlighting for source files
 
 ###############################################################################
 # Mac App Store                                                               #
