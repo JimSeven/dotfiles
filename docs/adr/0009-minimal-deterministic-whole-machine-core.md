@@ -26,8 +26,14 @@ Consequences — what this admits and what it deliberately excludes:
     preserves across OS updates. Added as a `run_once` Provisioning script.
   - **Global Composer CLIs** I always reinstall (`laravel/forge-cli`,
     `laravel/installer`, `statamic/cli`, `spatie/global-ray`) — stable and
-    idempotent via `composer global require`, added as a `run_onchange`
+    idempotent via `composer global require`, added as a `run_once`
     Provisioning script keyed on the package list.
+  - **Global PECL extensions** for Herd's PHP (currently `redis` — the phpredis
+    *client*, not the server, which stays per-project in OrbStack per ADR-0005).
+    A machine-wide PHP capability, so the same reasoning as the Composer CLIs.
+  - Both use `run_once_` rather than `run_onchange_`: a `run_once_` script re-runs
+    when its contents change *and* retries after a failed run, so a network or
+    build failure on a fresh machine is not silently swallowed.
 - **Deliberately out of scope** (considered and rejected, so a future reader need
   not re-litigate):
   - **App preference plists** (`~/Library/Preferences/*.plist`) — binary,
