@@ -2,7 +2,15 @@
   "permissions": {
     "allow": [
       "Bash(ghostty +version)",
-      "Bash(ghostty +show-config --config-file=/dev/stdin)"
+      "Bash(ghostty +show-config --config-file=/dev/stdin)",
+      "Bash(chezmoi --version)",
+      "Bash(chezmoi managed *)",
+      "Bash(chezmoi status *)",
+      "Bash(chezmoi diff *)",
+      "WebSearch",
+      "Bash(command -v shellcheck)",
+      "Bash(shellcheck home/run_once_after_45-pecl-extensions.sh)",
+      "Bash(/Applications/Ghostty.app/Contents/MacOS/ghostty +list-themes --plain)"
     ]
   }
 }
