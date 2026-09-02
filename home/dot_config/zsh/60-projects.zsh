@@ -8,7 +8,8 @@
 # Machine-only shortcuts can instead live in ~/.zshrc.local.
 
 alias fsb='cd ~/Sites/fsb'
-alias mbcon='cd ~/Sites/mbcon'
+alias mb-con='cd ~/Sites/mbcon'
+alias mb-mpux='cd ~/Sites/mb-mpux'
 alias er='cd ~/Sites/er'
 alias s5='cd ~/Sites/s5'
 alias 21st='cd ~/Sites/21st'
