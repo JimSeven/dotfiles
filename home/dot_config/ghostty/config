@@ -17,7 +17,7 @@ font-size = 14
 # ── Theme ─────────────────────────────────────────────────────────────────────
 # Follows the macOS system appearance automatically (no restart needed).
 # Both names must match `ghostty +list-themes` exactly.
-theme = "light:Catppuccin Latte,dark:Catppuccin Mocha"
+theme = "light:GitHub Light Default,dark:Catppuccin Mocha"
 
 # ── Window & appearance ───────────────────────────────────────────────────────
 background-opacity = 0.96
