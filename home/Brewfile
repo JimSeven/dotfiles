@@ -103,6 +103,7 @@ cask "home-assistant" # smart-home companion app
 
 cask "slack"
 cask "whatsapp"
+cask "threema"       # secure messenger
 cask "microsoft-teams"
 
 ###############################################################################
