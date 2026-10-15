@@ -11,7 +11,7 @@
 # Third-party taps                                                            #
 ###############################################################################
 
-tap "pchuri/tap"     # confluence-cli (trusted via `brew trust pchuri/tap`)
+tap "pchuri/tap"     # confluence-cli — trusted by run_once_before_08-brew-trust-taps.sh
 
 ###############################################################################
 # Command-line tools                                                          #

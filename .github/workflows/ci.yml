@@ -18,6 +18,7 @@ jobs:
         run: |
           shellcheck \
             scripts/bootstrap.sh \
+            home/run_once_before_08-brew-trust-taps.sh \
             home/run_onchange_after_20-macos-defaults.sh \
             home/run_onchange_after_30-dock.sh \
             home/run_once_after_40-composer-global.sh \
