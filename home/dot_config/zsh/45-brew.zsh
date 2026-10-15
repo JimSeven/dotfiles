@@ -19,7 +19,14 @@ BREW_STAMP="${XDG_STATE_HOME:-$HOME/.local/state}/brew-lastupgrade"
 # self-update (auto_updates true) are skipped by `brew upgrade` by design — add
 # --greedy manually if you ever want them too.
 brewup() {
-  brew update && brew upgrade && brew cleanup || return
+  local step rc
+  for step in update upgrade cleanup; do
+    brew "$step" || {
+      rc=$?
+      print -P "%F{red}brewup: 'brew ${step}' fehlgeschlagen (rc=${rc}) — Stempel nicht gesetzt.%f" >&2
+      return $rc
+    }
+  done
   mkdir -p "${BREW_STAMP:h}"
   print -r -- "$EPOCHSECONDS" >| "$BREW_STAMP"
 }
