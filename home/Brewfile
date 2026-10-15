@@ -8,6 +8,12 @@
 # Removal is always manual, never automatic (grilling decision).
 
 ###############################################################################
+# Third-party taps                                                            #
+###############################################################################
+
+tap "pchuri/tap"     # confluence-cli (trusted via `brew trust pchuri/tap`)
+
+###############################################################################
 # Command-line tools                                                          #
 ###############################################################################
 
@@ -41,6 +47,7 @@ brew "node"          # Node.js + npm; Corepack (yarn/pnpm shims) enabled via run
 brew "gogcli"        # Google Workspace CLI
 brew "opencode"      # AI coding agent CLI (homebrew-core)
 brew "azure-cli"     # Azure CLI
+brew "pchuri/tap/confluence-cli" # Confluence CLI (`confluence`)
 
 ###############################################################################
 # Terminal & shell                                                            #
